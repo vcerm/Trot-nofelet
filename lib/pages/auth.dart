@@ -49,8 +49,8 @@ class _AuthPageState extends State<AuthPage> {
 
     Widget _button(String text, void func()){
       return MaterialButton(
-        splashColor: Color(0xffebddd3),
-        highlightColor: Color(0xffebddd3),
+        splashColor: const Color(0xffebddd3),
+        highlightColor: const Color(0xffebddd3),
         color: const Color(0xffdb9562),
         child: Text(
           text,
