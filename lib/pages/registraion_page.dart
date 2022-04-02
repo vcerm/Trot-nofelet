@@ -14,7 +14,7 @@ class _RegisterState extends State<Register> {
       backgroundColor: const Color(0xffebddd3),
       appBar: AppBar(
         title: const Text(
-          'Трот-нофелет',
+          'Регистрация',
           style: TextStyle(
             fontSize: 24.0,
             color: Color(0xffebddd3),

@@ -54,7 +54,7 @@ class _MainPageState extends State<MainPage> {
             padding: EdgeInsets.zero,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
+                padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 20.0),
                 child: Column(
                   children: [
                     Row(
@@ -65,7 +65,7 @@ class _MainPageState extends State<MainPage> {
                               // fontStyle: FontStyle.normal,
                               color: Color(0xff7d5538),
                               fontSize: 14.0,
-                              letterSpacing: 5.0,
+                              letterSpacing: 3.0,
                             ),
                           ),
                       ],
@@ -80,7 +80,7 @@ class _MainPageState extends State<MainPage> {
                               // fontStyle: FontStyle.normal,
                               color: Color(0xff7d5538),
                               fontSize: 14.0,
-                              letterSpacing: 5.0,
+                              letterSpacing: 3.0,
                             ),
                           ),
                         ),
@@ -96,7 +96,7 @@ class _MainPageState extends State<MainPage> {
                               fontStyle: FontStyle.normal,
                               color: Color(0xff7d5538),
                               fontSize: 14.0,
-                              letterSpacing: 5.0,
+                              letterSpacing: 3.0,
                             ),
                           ),
                         ),
