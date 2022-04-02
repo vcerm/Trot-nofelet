@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:nofelet/pages/main_page.dart';
 import 'package:nofelet/pages/registraion_page.dart';
 
+import '../widgets/input.dart';
+
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
 
@@ -20,34 +22,6 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    Widget _input(String hint, TextEditingController controller, bool obscure){
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: TextField(
-          decoration: InputDecoration(
-            hintStyle: const TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 16,
-                color: Color(0xffb38f77),
-            ),
-            hintText: hint,
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Color(0xffb38f77), width: 2)
-            ),
-            focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xffb38f77), width: 3)
-            ),
-          ),
-          controller: controller,
-          obscureText: obscure,
-          style: const TextStyle(
-            fontSize: 16,
-            color: Color(0xff7d5538),
-          ),
-        ),
-      );
-    }
 
     Widget _button(String text, void func()){
       return MaterialButton(
@@ -93,35 +67,33 @@ class _AuthPageState extends State<AuthPage> {
     }
 
     Widget _form(){
-      return Container(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 170, bottom: 10),
-              child: _input("EMAIL", _emailController, false),
+      return Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(top: 170, bottom: 10),
+            child: input("EMAIL", _emailController, false),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: input("PASSWORD", _passwordController, true),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: SizedBox(
+              height: 40,
+              width: 150,
+              child: _button("Войти", _buttonEnter),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: _input("PASSWORD", _passwordController, true),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: SizedBox(
+              height: 40,
+              width: 150,
+              child: _button("Регистрация", _buttonReg),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: SizedBox(
-                height: 40,
-                width: 150,
-                child: _button("Войти", _buttonEnter),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: SizedBox(
-                height: 40,
-                width: 150,
-                child: _button("Регистрация", _buttonReg),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       );
     }
 

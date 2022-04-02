@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/input.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -8,8 +9,15 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordChekController = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: const Color(0xffebddd3),
       appBar: AppBar(
@@ -32,7 +40,34 @@ class _RegisterState extends State<Register> {
           ),
         )
       ),
-      body: Column(),
+      body: Column(
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.only(top: 20.0, bottom: 10),
+                    child: Image.asset(
+                      'assets/images/profile_logo.png',
+                      width: 150,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: input('Имя', _nameController, false),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: input('Email', _emailController, false),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: input('Пароль', _passwordController, true),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: input('Повторите пароль', _passwordChekController, true),
+                  ),
+                ],
+              ),
+
     );
   }
 }
