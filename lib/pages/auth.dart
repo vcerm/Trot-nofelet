@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nofelet/pages/main_page.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -49,6 +50,7 @@ class _AuthPageState extends State<AuthPage> {
 
     Widget _button(String text, void func()){
       return MaterialButton(
+        padding: EdgeInsets.all(0.0),
         splashColor: const Color(0xffebddd3),
         highlightColor: const Color(0xffebddd3),
         color: const Color(0xffdb9562),
@@ -57,9 +59,9 @@ class _AuthPageState extends State<AuthPage> {
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.normal,
-            letterSpacing: 5.0,
+            letterSpacing: 2.0,
             color: Color(0xffebddd3)
-          )
+          ),
         ),
         onPressed: (){
           func();
@@ -67,24 +69,32 @@ class _AuthPageState extends State<AuthPage> {
       );
     }
 
-    Widget _form(String label, void func()){
+    Widget _form(void func()){
       return Container(
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 170, bottom: 20),
+              padding: const EdgeInsets.only(top: 170, bottom: 10),
               child: _input("EMAIL", _emailController, false),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: _input("PASSWORD", _passwordController, true),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: SizedBox(
                 height: 40,
                 width: 150,
-                child: _button(label, func),
+                child: _button("Войти", func),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: SizedBox(
+                height: 40,
+                width: 150,
+                child: _button("Регистрация", func),
               ),
             ),
           ],
@@ -98,6 +108,15 @@ class _AuthPageState extends State<AuthPage> {
 
       _emailController.clear();
       _passwordController.clear();
+
+      if(showLogin == true){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context)
+          {return const MainPage();},
+          ),
+        );
+      }
     }
 
     return Scaffold(
@@ -116,7 +135,7 @@ class _AuthPageState extends State<AuthPage> {
       ),
       body: Column(
         children: <Widget>[
-          _form("Войти",_buttonAction),
+          _form(_buttonAction),
         ],
       ),
     );
