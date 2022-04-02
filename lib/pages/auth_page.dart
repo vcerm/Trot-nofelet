@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nofelet/pages/main_page.dart';
+import 'package:nofelet/pages/registraion_page.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class _AuthPageState extends State<AuthPage> {
 
   late String _email;
   late String _password;
-  bool showLogin = true;
+  // bool showLogin = true;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class _AuthPageState extends State<AuthPage> {
 
     Widget _button(String text, void func()){
       return MaterialButton(
-        padding: EdgeInsets.all(0.0),
+        padding: const EdgeInsets.all(0.0),
         splashColor: const Color(0xffebddd3),
         highlightColor: const Color(0xffebddd3),
         color: const Color(0xffdb9562),
@@ -69,7 +70,29 @@ class _AuthPageState extends State<AuthPage> {
       );
     }
 
-    Widget _form(void func()){
+    void _buttonEnter(){
+      _email = _emailController.text;
+      _password = _passwordController.text;
+
+      _emailController.clear();
+      _passwordController.clear();
+
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MainPage()));
+    }
+
+    void _buttonReg(){
+      _email = _emailController.text;
+      _password = _passwordController.text;
+
+      _emailController.clear();
+      _passwordController.clear();
+
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Register()));
+    }
+
+    Widget _form(){
       return Container(
         child: Column(
           children: <Widget>[
@@ -86,7 +109,7 @@ class _AuthPageState extends State<AuthPage> {
               child: SizedBox(
                 height: 40,
                 width: 150,
-                child: _button("Войти", func),
+                child: _button("Войти", _buttonEnter),
               ),
             ),
             Padding(
@@ -94,29 +117,12 @@ class _AuthPageState extends State<AuthPage> {
               child: SizedBox(
                 height: 40,
                 width: 150,
-                child: _button("Регистрация", func),
+                child: _button("Регистрация", _buttonReg),
               ),
             ),
           ],
         ),
       );
-    }
-
-    void _buttonAction(){
-      _email = _emailController.text;
-      _password = _passwordController.text;
-
-      _emailController.clear();
-      _passwordController.clear();
-
-      if(showLogin == true){
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context)
-          {return const MainPage();},
-          ),
-        );
-      }
     }
 
     return Scaffold(
@@ -135,7 +141,7 @@ class _AuthPageState extends State<AuthPage> {
       ),
       body: Column(
         children: <Widget>[
-          _form(_buttonAction),
+          _form(),
         ],
       ),
     );
