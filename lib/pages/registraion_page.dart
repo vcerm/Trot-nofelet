@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/input.dart';
+import 'package:nofelet/models/item.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);

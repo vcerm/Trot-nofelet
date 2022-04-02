@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:nofelet/widgets/list_items.dart';
+import 'package:nofelet/models/item.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -15,6 +16,12 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    // Widget _category(List<Item> item){
+    //   dynamic categories = [];
+    //   return Column();
+    // }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
