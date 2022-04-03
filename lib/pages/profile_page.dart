@@ -98,7 +98,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 Container(
                   height: 400,
-                  child: UserItemsWidget(items: user.items),
+                  child: UserItemsWidget(items: user.items, bottomButton: Container(),),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 30.0),

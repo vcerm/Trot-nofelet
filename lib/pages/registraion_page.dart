@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nofelet/pages/profile_page.dart';
+import 'package:nofelet/widgets/Add_Button_Widget.dart';
 import 'package:nofelet/widgets/Button_Widget.dart';
 import '../widgets/User_Items_Widget.dart';
 import '../widgets/input.dart';
@@ -91,7 +92,7 @@ class _RegisterState extends State<Register> {
             flex: 2,
             child: SizedBox(
               height: 170,
-              child: UserItemsWidget(items: user.items),
+              child: UserItemsWidget(items: user.items, bottomButton: addButton(),),
             ),
           ),
           Expanded(
@@ -99,7 +100,7 @@ class _RegisterState extends State<Register> {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: SizedBox(
-                height: 40,
+                height: 30,
                 width: 250,
                 child: button('Регистрация', _buttonReg),
               ),

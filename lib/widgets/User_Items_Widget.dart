@@ -5,15 +5,22 @@ import '../models/item.dart';
 class UserItemsWidget extends StatelessWidget {
 
   final List<Item> items;
+  final Widget bottomButton;
 
-  const UserItemsWidget({Key? key, required this.items}) : super(key: key);
+  const UserItemsWidget({Key? key, required this.items, required this.bottomButton}) : super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: items.length,
-      itemBuilder: (context, i){
+      itemCount: items.length+1,
+      itemBuilder: (context, int i){
+        if(i == items.length){
+          return Container(
+            margin: const EdgeInsets.symmetric(horizontal: 100),
+            child: bottomButton,
+          );
+        }
         return Card(
           elevation: 2,
           margin: const EdgeInsets.symmetric(vertical: 9.0, horizontal: 16),
