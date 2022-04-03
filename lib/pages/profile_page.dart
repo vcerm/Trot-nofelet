@@ -60,7 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 context, MaterialPageRoute(builder: (context) => MainPage()));
           },
           child: const Icon(
-            Icons.house,
+            Icons.house_rounded,
             size: 30.0,
             color: Color(0xffebddd3),
           ),

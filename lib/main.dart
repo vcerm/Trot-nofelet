@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nofelet/pages/auth_page.dart';
 import 'package:nofelet/pages/main_page.dart';
+import 'package:nofelet/pages/profile_page.dart';
 import 'package:nofelet/pages/registraion_page.dart';
 
 void main() {

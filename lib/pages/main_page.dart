@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:nofelet/pages/profile_page.dart';
 import 'package:nofelet/widgets/list_items.dart';
 import 'package:nofelet/models/item.dart';
 
@@ -12,7 +13,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +23,7 @@ class _MainPageState extends State<MainPage> {
     // }
 
     return Scaffold(
+      backgroundColor: const Color(0xffebddd3),
       appBar: AppBar(
         title: const Text(
           'Трот-нофелет',
@@ -32,17 +33,14 @@ class _MainPageState extends State<MainPage> {
           ),
         ),
         centerTitle: true,
-        // automaticallyImplyLeading: false,
         leading: RawMaterialButton(
           onPressed: () {
-            if(_scaffoldKey.currentState!.isDrawerOpen){
-              _scaffoldKey.currentState?.openEndDrawer();
-            } else{
-              _scaffoldKey.currentState?.openDrawer();
-            }
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => ProfilePage())
+            );
           },
           child: const Icon(
-            Icons.menu,
+            Icons.person_outline_rounded,
             size: 30.0,
             color: Color(0xffebddd3),
           ),
@@ -50,72 +48,7 @@ class _MainPageState extends State<MainPage> {
         backgroundColor: const Color(0xff7d5538),
         shadowColor: Colors.transparent,
       ),
-      body: Scaffold(
-        backgroundColor: const Color(0xffebddd3),
-        drawerEnableOpenDragGesture: false,
-        key: _scaffoldKey,
-        body: ItemList(),
-        drawer: Drawer(
-          backgroundColor: const Color(0xffd4b59f),
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 20.0),
-                child: Column(
-                  children: [
-                    Row(
-                      children: const [
-                         Text(
-                            'Сахаристые изделия',
-                            style: TextStyle(
-                              // fontStyle: FontStyle.normal,
-                              color: Color(0xff7d5538),
-                              fontSize: 14.0,
-                              letterSpacing: 3.0,
-                            ),
-                          ),
-                      ],
-                    ),
-                    Row(
-                      children: const [
-                        Padding(
-                          padding: EdgeInsets.only(top: 8.0),
-                          child: Text(
-                            'Безе',
-                            style: TextStyle(
-                              // fontStyle: FontStyle.normal,
-                              color: Color(0xff7d5538),
-                              fontSize: 14.0,
-                              letterSpacing: 3.0,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: const [
-                        Padding(
-                          padding: EdgeInsets.only(top: 8.0),
-                          child: Text(
-                            'Мармелад',
-                            style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              color: Color(0xff7d5538),
-                              fontSize: 14.0,
-                              letterSpacing: 3.0,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+      body: ItemList(),
     );
   }
 }
