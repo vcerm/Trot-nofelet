@@ -1,5 +1,4 @@
 import 'package:nofelet/models/user.dart';
-
 import '../models/item.dart';
 
 class UserPreferences{

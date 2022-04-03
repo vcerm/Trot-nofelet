@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nofelet/pages/main_page.dart';
 import 'package:nofelet/pages/registraion_page.dart';
 
+import '../widgets/Button_Widget.dart';
 import '../widgets/input.dart';
 
 class AuthPage extends StatefulWidget {
@@ -16,52 +17,25 @@ class _AuthPageState extends State<AuthPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  late String _email;
-  late String _password;
   // bool showLogin = true;
 
   @override
   Widget build(BuildContext context) {
 
-    Widget _button(String text, void func()){
-      return MaterialButton(
-        padding: const EdgeInsets.all(0.0),
-        splashColor: const Color(0xffebddd3),
-        highlightColor: const Color(0xffebddd3),
-        color: const Color(0xffdb9562),
-        child: Text(
-          text,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.normal,
-            letterSpacing: 2.0,
-            color: Color(0xffebddd3)
-          ),
-        ),
-        onPressed: (){
-          func();
-        },
-      );
-    }
-
-    void _buttonEnter(){
-      _email = _emailController.text;
-      _password = _passwordController.text;
+    void _buttonAction(){
 
       _emailController.clear();
       _passwordController.clear();
+    }
 
+    void _buttonEnter(){
+      _buttonAction();
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => MainPage()));
     }
 
     void _buttonReg(){
-      _email = _emailController.text;
-      _password = _passwordController.text;
-
-      _emailController.clear();
-      _passwordController.clear();
-
+      _buttonAction();
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => Register()));
     }
@@ -82,7 +56,7 @@ class _AuthPageState extends State<AuthPage> {
             child: SizedBox(
               height: 40,
               width: 150,
-              child: _button("Войти", _buttonEnter),
+              child: button("Войти", _buttonEnter),
             ),
           ),
           Padding(
@@ -90,7 +64,7 @@ class _AuthPageState extends State<AuthPage> {
             child: SizedBox(
               height: 40,
               width: 150,
-              child: _button("Регистрация", _buttonReg),
+              child: button("Регистрация", _buttonReg),
             ),
           ),
         ],

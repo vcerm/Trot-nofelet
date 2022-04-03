@@ -13,11 +13,13 @@ class ProfilePage extends StatefulWidget {
   _ProfilePageState createState() => _ProfilePageState();
 }
 
+final user = UserPreferences.myUser;
+
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
 
-    final user = UserPreferences.myUser;
+
 
     Widget _button(String text){
       return MaterialButton(
