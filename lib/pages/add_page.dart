@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nofelet/widgets/Add_Item_Widget.dart';
+import 'package:nofelet/widgets/Add_Item_Image.dart';
 
 class AddItem extends StatelessWidget {
   const AddItem({Key? key}) : super(key: key);
