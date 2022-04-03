@@ -13,10 +13,10 @@ Widget input(String hint, TextEditingController controller, bool obscure){
         ),
         hintText: hint,
         enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Color(0xffb38f77), width: 2)
+          borderSide: BorderSide(color: Color(0xffb38f77), width: 2),
         ),
         focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Color(0xffb38f77), width: 3)
+          borderSide: BorderSide(color: Color(0xffb38f77), width: 3),
         ),
       ),
       controller: controller,

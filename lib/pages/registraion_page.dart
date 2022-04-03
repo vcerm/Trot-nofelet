@@ -6,6 +6,8 @@ import '../widgets/input.dart';
 import 'package:nofelet/widgets/User_Preferences.dart';
 import 'package:nofelet/models/item.dart';
 
+import 'main_page.dart';
+
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
 
@@ -23,7 +25,18 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
 
     void _buttonReg(){
+      if(_passwordController.text == _passwordChekController.text){
+        _passwordController.clear();
+        _nameController.clear();
+        _emailController.clear();
+        _passwordChekController.clear();
 
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MainPage()));
+      } else {
+        _passwordController.clear();
+        _passwordChekController.clear();
+      }
     }
 
     return Scaffold(
@@ -74,16 +87,22 @@ class _RegisterState extends State<Register> {
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: input('Повторите пароль', _passwordChekController, true),
           ),
-          Container(
-            height: 170,
-            child: UserItemsWidget(items: user.items),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0),
+          Expanded(
+            flex: 2,
             child: SizedBox(
-              height: 40,
-              width: 250,
-              child: button('Регистрация', (){}),
+              height: 170,
+              child: UserItemsWidget(items: user.items),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: SizedBox(
+                height: 40,
+                width: 250,
+                child: button('Регистрация', _buttonReg),
+              ),
             ),
           ),
         ],
