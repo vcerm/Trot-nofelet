@@ -45,11 +45,11 @@ class _AuthPageState extends State<AuthPage> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(top: 170, bottom: 10),
-            child: input("EMAIL", _emailController, false),
+            child: input("EMAIL", _emailController, false, false, 1),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: input("PASSWORD", _passwordController, true),
+            child: input("PASSWORD", _passwordController, true, false, 1),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),

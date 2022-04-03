@@ -3,7 +3,8 @@ import 'package:nofelet/widgets/Button_Widget.dart';
 
 Widget addButton(void func()){
   return SizedBox(
-    width: 60,
+    height: 50,
+    width: 150,
     child: button('Добавить', func),
   );
 }

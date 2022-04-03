@@ -1,8 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nofelet/widgets/Add_Button_Widget.dart';
 import 'package:nofelet/widgets/Add_Item_Image.dart';
+import 'package:nofelet/widgets/input.dart';
 
-class AddItem extends StatelessWidget {
+class AddItem extends StatefulWidget {
   const AddItem({Key? key}) : super(key: key);
+
+  @override
+  State<AddItem> createState() => _AddItemState();
+}
+
+class _AddItemState extends State<AddItem> {
+
+  final _description = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,16 +42,31 @@ class AddItem extends StatelessWidget {
           ),
         ),
       ),
-      body: Center(
-        child: Column(
+      body: Column(
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 25.0),
               child: addImage(),
             ),
+
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return SizedBox(
+                      height: constraints.maxHeight / 9,
+                      child: input('Описание', _description, false, true, null)
+                    );
+                  }),
+                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: addButton((){Navigator.pop(context);}),
+            )
           ],
         ),
-      ),
     );
   }
 }

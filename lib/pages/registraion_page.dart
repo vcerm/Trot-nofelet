@@ -81,19 +81,19 @@ class _RegisterState extends State<Register> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: input('Имя', _nameController, false),
+            child: input('Имя', _nameController, false, false, 1),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: input('Email', _emailController, false),
+            child: input('Email', _emailController, false, false, 1),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: input('Пароль', _passwordController, true),
+            child: input('Пароль', _passwordController, true, false, 1),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: input('Повторите пароль', _passwordChekController, true),
+            child: input('Повторите пароль', _passwordChekController, true, false, 1),
           ),
           Expanded(
             flex: 2,
@@ -105,7 +105,7 @@ class _RegisterState extends State<Register> {
           Expanded(
             flex: 1,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 100.0),
               child: SizedBox(
                 height: 30,
                 width: 250,

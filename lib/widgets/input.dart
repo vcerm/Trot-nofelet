@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-Widget input(String hint, TextEditingController controller, bool obscure){
+Widget input(String hint, TextEditingController controller, bool obscure, bool expand, final maxLines){
+
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 20.0),
     child: TextField(
@@ -19,6 +20,8 @@ Widget input(String hint, TextEditingController controller, bool obscure){
           borderSide: BorderSide(color: Color(0xffb38f77), width: 3),
         ),
       ),
+      expands: expand,
+      maxLines: maxLines,
       controller: controller,
       obscureText: obscure,
       style: const TextStyle(
