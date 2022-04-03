@@ -1,9 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:nofelet/pages/profile_page.dart';
 import 'package:nofelet/widgets/list_items.dart';
-import 'package:nofelet/models/item.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);

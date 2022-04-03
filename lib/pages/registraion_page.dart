@@ -5,9 +5,6 @@ import 'package:nofelet/widgets/Button_Widget.dart';
 import '../widgets/User_Items_Widget.dart';
 import '../widgets/input.dart';
 import 'package:nofelet/pages/add_page.dart';
-import 'package:nofelet/widgets/User_Preferences.dart';
-import 'package:nofelet/models/item.dart';
-
 import 'main_page.dart';
 
 class Register extends StatefulWidget {
@@ -74,10 +71,24 @@ class _RegisterState extends State<Register> {
         children: <Widget>[
           Container(
             padding: const EdgeInsets.only(top: 20.0, bottom: 10),
-            child: Image.asset(
-              'assets/images/profile_logo.png',
-              width: 150,
-            ),
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: <Widget>[
+                Container(
+                  child: Image.asset(
+                    'assets/images/profile_logo.png',
+                    width: 150,
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(top: 26),
+                  child: Image.asset(
+                    'assets/images/download.png',
+                    width: 60,
+                  ),
+                ),
+              ],
+            )
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),

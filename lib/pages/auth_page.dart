@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nofelet/pages/main_page.dart';
 import 'package:nofelet/pages/registraion_page.dart';
-
 import '../widgets/Button_Widget.dart';
 import '../widgets/input.dart';
 
