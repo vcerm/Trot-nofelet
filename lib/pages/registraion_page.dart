@@ -4,6 +4,7 @@ import 'package:nofelet/widgets/Add_Button_Widget.dart';
 import 'package:nofelet/widgets/Button_Widget.dart';
 import '../widgets/User_Items_Widget.dart';
 import '../widgets/input.dart';
+import 'package:nofelet/pages/add_page.dart';
 import 'package:nofelet/widgets/User_Preferences.dart';
 import 'package:nofelet/models/item.dart';
 
@@ -40,6 +41,11 @@ class _RegisterState extends State<Register> {
       }
     }
 
+    void addButtonRoute(){
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => AddItem()));
+    }
+
     return Scaffold(
       backgroundColor: const Color(0xffebddd3),
       appBar: AppBar(
@@ -62,7 +68,8 @@ class _RegisterState extends State<Register> {
               size: 30.0,
               color: Color(0xffebddd3),
             ),
-          )),
+          ),
+      ),
       body: Column(
         children: <Widget>[
           Container(
@@ -92,7 +99,7 @@ class _RegisterState extends State<Register> {
             flex: 2,
             child: SizedBox(
               height: 170,
-              child: UserItemsWidget(items: user.items, bottomButton: addButton(),),
+              child: UserItemsWidget(items: user.items, bottomButton: addButton(addButtonRoute),),
             ),
           ),
           Expanded(
