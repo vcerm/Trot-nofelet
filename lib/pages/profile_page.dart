@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:nofelet/pages/auth_page.dart';
+import 'package:nofelet/pages/profile_edit_page.dart';
+import 'package:nofelet/widgets/Button_Widget.dart';
 import 'package:nofelet/widgets/User_Preferences.dart';
 import 'package:nofelet/widgets/list_items.dart';
 
@@ -19,29 +22,11 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
 
-
-
-    Widget _button(String text){
-      return MaterialButton(
-        padding: const EdgeInsets.all(0.0),
-        splashColor: const Color(0xffebddd3),
-        highlightColor: const Color(0xffebddd3),
-        color: const Color(0xffdb9562),
-        child: Text(
-          text,
-          style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.normal,
-              letterSpacing: 2.0,
-              color: Color(0xffebddd3)
-          ),
-        ),
-        onPressed: (){
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => MainPage()));
-        },
-      );
+    void _buttonExit(){
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => AuthPage()));
     }
+
 
     return Scaffold(
       backgroundColor: const Color(0xffebddd3),
@@ -71,7 +56,8 @@ class _ProfilePageState extends State<ProfilePage> {
         actions: [
           RawMaterialButton(
               onPressed: (){
-
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => ProfileEdit()));
               },
               child: const Icon(
                 Icons.edit,
@@ -89,7 +75,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Name: user.name,
                   Email: user.email,
                 ),
-                Divider(
+                const Divider(
                   color: Colors.black,
                   height: 20,
                   thickness: 2,
@@ -105,7 +91,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: SizedBox(
                     height: 40,
                     width: 150,
-                    child: _button("Выйти"),
+                    child: button("Выйти", _buttonExit),
                   ),
                 ),
               ],

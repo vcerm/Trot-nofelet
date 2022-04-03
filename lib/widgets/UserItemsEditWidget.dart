@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../models/item.dart';
 
-class UserItemsWidget extends StatelessWidget {
+class UserItemsEdit extends StatelessWidget {
 
   final List<Item> items;
   final Widget bottomButton;
 
-  const UserItemsWidget({Key? key, required this.items, required this.bottomButton}) : super(key: key);
-
+  const UserItemsEdit({Key? key, required this.items, required this.bottomButton}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +51,7 @@ class UserItemsWidget extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                    Text(
-                    '№' + items[i].id.toString(),
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  )
+                  Icon(Icons.clear),
                 ],
               ),
             ),
@@ -66,7 +59,5 @@ class UserItemsWidget extends StatelessWidget {
         );
       },
     );
-
   }
- }
-
+}
