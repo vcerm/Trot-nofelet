@@ -90,16 +90,21 @@ class _ProfileEditState extends State<ProfileEdit> {
             indent: 10,
             endIndent: 10,
           ),
-          Container(
-            height: 350,
-            child: UserItemsEdit(items: user.items, bottomButton: _Addbutton()),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 30.0),
+          Flexible(
+            fit: FlexFit.loose,
             child: SizedBox(
-              height: 40,
-              width: 150,
-              child: button("Сохранить", _buttonSave),
+              height: 350,
+              child: UserItemsEdit(items: user.items, bottomButton: _Addbutton()),
+            ),
+          ),
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 30.0),
+              child: SizedBox(
+                height: 40,
+                width: 150,
+                child: button("Сохранить", _buttonSave),
+              ),
             ),
           ),
         ],

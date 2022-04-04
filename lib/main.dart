@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nofelet/pages/auth_page.dart';
-import 'package:nofelet/pages/item_page.dart';
 import 'package:nofelet/pages/main_page.dart';
+import 'package:nofelet/pages/profile_edit_page.dart';
 import 'package:nofelet/pages/profile_page.dart';
 import 'package:nofelet/pages/registraion_page.dart';
 
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Inter'),
-      home: ItemPage(),
+      home: ProfilePage(),
     );
   }
 }
