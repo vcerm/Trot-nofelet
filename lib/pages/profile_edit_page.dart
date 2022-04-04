@@ -92,12 +92,14 @@ class _ProfileEditState extends State<ProfileEdit> {
           ),
           Flexible(
             fit: FlexFit.loose,
+            flex: 3,
             child: SizedBox(
               height: 350,
               child: UserItemsEdit(items: user.items, bottomButton: _Addbutton()),
             ),
           ),
           Flexible(
+            fit: FlexFit.loose,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 30.0),
               child: SizedBox(
