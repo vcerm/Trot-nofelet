@@ -13,17 +13,6 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
 
-  void initFirebase() async{
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-  }
-
-  @override
-  void initState(){
-    super.initState();
-    initFirebase();
-  }
-
   @override
   Widget build(BuildContext context) {
     

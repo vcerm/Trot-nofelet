@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nofelet/pages/auth_page.dart';
@@ -15,6 +16,11 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  void initFirebase() async{
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+  }
+  initFirebase();
   runApp(const MyApp());
 }
 
