@@ -51,7 +51,7 @@ class UserItemsEdit extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  Icon(Icons.clear),
+                  Icon(Icons.delete),
                 ],
               ),
             ),

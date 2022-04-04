@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "201366727493",
+    "project_id": "mobilki-flutter-afbc8",
+    "storage_bucket": "mobilki-flutter-afbc8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201366727493:android:7c83ce540e355af100ac2c",
+        "android_client_info": {
+          "package_name": "ru.asstap.nofelet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "201366727493-u4d2ncnfgcuo1e4kbib5kfil6e394f10.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtsp7yz1K00XuL1BTHgGiA6Dw6s6hwuJ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "201366727493-u4d2ncnfgcuo1e4kbib5kfil6e394f10.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
