@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nofelet/pages/profile_page.dart';
 import 'package:nofelet/widgets/Add_Button_Widget.dart';
 import 'package:nofelet/widgets/Button_Widget.dart';
+import '../widgets/UserItemsEditWidget.dart';
 import '../widgets/User_Items_Widget.dart';
 import '../widgets/input.dart';
 import 'package:nofelet/pages/add_page.dart';
@@ -106,20 +108,22 @@ class _RegisterState extends State<Register> {
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: input('Повторите пароль', _passwordChekController, true, false, 1),
           ),
-          Expanded(
-            flex: 2,
+          Flexible(
+            fit: FlexFit.loose,
+            flex: 3,
             child: SizedBox(
               height: 170,
-              child: UserItemsWidget(items: user.items, bottomButton: addButton(addButtonRoute),),
+              child: UserItemsEdit(items: user.items, bottomButton: addButton(addButtonRoute),),
             ),
           ),
-          Expanded(
-            flex: 1,
+          Flexible(
+            fit: FlexFit.loose,
+            // flex: 2,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 100.0),
+              padding: const EdgeInsets.only(top: 20.0),
               child: SizedBox(
-                height: 30,
-                width: 250,
+                height: 40,
+                width: 195,
                 child: button('Регистрация', _buttonReg),
               ),
             ),

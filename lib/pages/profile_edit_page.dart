@@ -58,6 +58,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                 imagePath: user.photo,
                 onClicked: () async {},
               ),
+              const VerticalDivider(width: 15, thickness: 0,),
               SizedBox(
                 height: 200,
                 width: 200,
@@ -92,18 +93,18 @@ class _ProfileEditState extends State<ProfileEdit> {
           ),
           Flexible(
             fit: FlexFit.loose,
-            flex: 3,
+            flex: 5,
             child: SizedBox(
-              height: 350,
+              height: 450,
               child: UserItemsEdit(items: user.items, bottomButton: _Addbutton()),
             ),
           ),
           Flexible(
             fit: FlexFit.loose,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30.0),
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: SizedBox(
-                height: 40,
+                height: 50,
                 width: 150,
                 child: button("Сохранить", _buttonSave),
               ),

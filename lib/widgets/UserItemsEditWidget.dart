@@ -16,13 +16,13 @@ class UserItemsEdit extends StatelessWidget {
       itemBuilder: (context, int i){
         if(i == items.length){
           return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 100),
+            padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 10.0),
             child: bottomButton,
           );
         }
         return Card(
           elevation: 2,
-          margin: const EdgeInsets.symmetric(vertical: 9.0, horizontal: 16),
+          margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
           child: Container(
             decoration: const BoxDecoration(color: Color(0xffecd9cc),),
             child: ListTile(
