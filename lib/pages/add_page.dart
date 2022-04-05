@@ -55,7 +55,7 @@ class _AddItemState extends State<AddItem> {
                   builder: (context, constraints) {
                     return SizedBox(
                       height: constraints.maxHeight / 9,
-                      child: input('Описание', _description, false, true, null)
+                      child: input('Описание', _description, false, true, null, null)
                     );
                   }),
                 ),

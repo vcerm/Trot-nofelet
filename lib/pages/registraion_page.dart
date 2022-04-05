@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,6 +27,15 @@ class _RegisterState extends State<Register> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordChekController = TextEditingController();
+
+  @override
+  void dispose() {
+    _passwordChekController.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,66 +86,69 @@ class _RegisterState extends State<Register> {
             ),
           ),
       ),
-      body: Column(
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 10),
-            child: Stack(
-              alignment: Alignment.topCenter,
-              children: <Widget>[
-                Container(
-                  child: Image.asset(
-                    'assets/images/profile_logo.png',
-                    width: 150,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: <Widget>[
+                  Container(
+                    child: Image.asset(
+                      'assets/images/profile_logo.png',
+                      width: 150,
+                    ),
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(top: 26),
-                  child: Image.asset(
-                    'assets/images/download.png',
-                    width: 60,
+                  Container(
+                    padding: const EdgeInsets.only(top: 26),
+                    child: Image.asset(
+                      'assets/images/download.png',
+                      width: 60,
+                    ),
                   ),
-                ),
-              ],
-            )
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: input('Имя', _nameController, false, false, 1),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: input('Email', _emailController, false, false, 1),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: input('Пароль', _passwordController, true, false, 1),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: input('Повторите пароль', _passwordChekController, true, false, 1),
-          ),
-          Flexible(
-            fit: FlexFit.loose,
-            flex: 3,
-            child: SizedBox(
+                ],
+              )
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: input('Имя', _nameController, false, false, 1, null),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: input('Email', _emailController, false, false, 1, (email) =>
+              email != null && !EmailValidator.validate(email)
+                  ? 'Введите корректный email'
+                  : null),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: input('Пароль', _passwordController, true, false, 1, (value) =>
+              value != null && value.length < 6
+                  ? 'Слишком короткий пароль'
+                  : null),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: input('Повторите пароль', _passwordChekController, true, false, 1, (value) =>
+              value.isEmpty || (value != null && value != _passwordController.text)
+                  ? 'Пароли отличаются'
+                  : null),
+            ),
+            SizedBox(
               height: 170,
               child: UserItemsEdit(items: user.items, bottomButton: addButton(addButtonRoute),),
             ),
-          ),
-          Flexible(
-            fit: FlexFit.loose,
-            // flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: SizedBox(
                 height: 40,
                 width: 195,
                 child: button('Регистрация', _buttonReg),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

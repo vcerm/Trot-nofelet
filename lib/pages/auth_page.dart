@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nofelet/pages/main_page.dart';
@@ -18,10 +19,17 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
 
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   // bool showLogin = true;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +43,8 @@ class _AuthPageState extends State<AuthPage> {
 
         try {
           await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: emailController.text.trim(),
-            password: passwordController.text.trim(),);
-          emailController.clear();
-          passwordController.clear();
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim(),);
         } on FirebaseAuthException catch (e) {
           print(e);
         }
@@ -52,11 +58,14 @@ class _AuthPageState extends State<AuthPage> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(top: 170, bottom: 10),
-            child: input("EMAIL", emailController, false, false, 1),
+            child: input("EMAIL", _emailController, false, false, 1, (email) =>
+            email != null && !EmailValidator.validate(email)
+                ? 'Введите корректный email'
+                : null),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: input("PASSWORD", passwordController, true, false, 1),
+            child: input("PASSWORD", _passwordController, true, false, 1, null),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
