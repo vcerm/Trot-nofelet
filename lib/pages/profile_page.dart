@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nofelet/pages/auth_page.dart';
 import 'package:nofelet/pages/profile_edit_page.dart';
@@ -23,8 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
 
     void _buttonExit(){
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => AuthPage()));
+      FirebaseAuth.instance.signOut();
     }
 
 

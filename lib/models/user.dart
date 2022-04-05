@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'item.dart';
 
 class User{
@@ -10,3 +11,9 @@ class User{
 
   const User({required this.id, required this.name, required this.email, required this.password, required this.photo, required this.items});
 }
+
+// class User {
+//   late String id;
+//
+//
+// }

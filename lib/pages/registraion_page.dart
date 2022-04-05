@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nofelet/main.dart';
 import 'package:nofelet/pages/profile_page.dart';
 import 'package:nofelet/widgets/Add_Button_Widget.dart';
 import 'package:nofelet/widgets/Button_Widget.dart';
@@ -10,7 +13,9 @@ import 'package:nofelet/pages/add_page.dart';
 import 'main_page.dart';
 
 class Register extends StatefulWidget {
-  const Register({Key? key}) : super(key: key);
+  final Function() onClickedAuth;
+
+  const Register({Key? key, required this.onClickedAuth}) : super(key: key);
 
   @override
   State<Register> createState() => _RegisterState();
@@ -25,19 +30,23 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
 
-    void _buttonReg(){
-      if(_passwordController.text == _passwordChekController.text){
-        _passwordController.clear();
-        _nameController.clear();
-        _emailController.clear();
-        _passwordChekController.clear();
+    Future _buttonReg() async{
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(child: CircularProgressIndicator(),),
+      );
 
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => MainPage()));
-      } else {
-        _passwordController.clear();
-        _passwordChekController.clear();
+      try {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
+      } on FirebaseAuthException catch (e) {
+        print(e);
       }
+
+      navigatorKey.currentState!.popUntil((route) => route.isFirst);
     }
 
     void addButtonRoute(){
@@ -59,9 +68,7 @@ class _RegisterState extends State<Register> {
           backgroundColor: const Color(0xff7d5538),
           shadowColor: Colors.transparent,
           leading: RawMaterialButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: widget.onClickedAuth,
             child: const Icon(
               Icons.arrow_back_rounded,
               size: 30.0,
