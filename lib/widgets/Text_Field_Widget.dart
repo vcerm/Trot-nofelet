@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 
 class TextFieldWidget extends StatefulWidget {
 
+  final int minLines;
   final String label;
   final String text;
   final ValueChanged<String> onChanged;
 
-  const TextFieldWidget({Key? key, required this.label, required this.text, required this.onChanged}) : super(key: key);
+  const TextFieldWidget({Key? key, required this.label, required this.text, required this.onChanged, required this.minLines}) : super(key: key);
 
   @override
   _TextFieldWidgetState createState() => _TextFieldWidgetState();
@@ -45,6 +46,8 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
       ),
       const SizedBox(height: 5,),
       TextField(
+        minLines: widget.minLines,
+        maxLines: 30,
         controller: controller,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(10.0),

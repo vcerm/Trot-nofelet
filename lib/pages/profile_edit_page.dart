@@ -67,6 +67,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                     const SizedBox(height: 10,),
                     Expanded(
                       child: TextFieldWidget(
+                        minLines: 1,
                         label: 'Имя',
                         text: user.name,
                         onChanged: (name) {},
@@ -74,6 +75,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                     ),
                     Expanded(
                       child: TextFieldWidget(
+                        minLines: 1,
                         label: 'Email',
                         text: user.email,
                         onChanged: (email) {},

@@ -49,20 +49,6 @@ class _ItemPageState extends State<ItemPage> {
             color: Color(0xffebddd3),
           ),
         ),
-
-        actions: [
-          RawMaterialButton(
-            onPressed: (){
-              //Navigator.push(
-                //  context, MaterialPageRoute(builder: (context) => ItemEditPage()));
-            },
-            child: const Icon(
-              Icons.edit,
-              size: 30.0,
-              color: Color(0xffebddd3),
-            ),
-          ),
-        ],
       ),
       body:
       Column(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nofelet/pages/item_edit_page.dart';
 
 import '../models/item.dart';
 
@@ -52,13 +53,18 @@ class UserItemsWidget extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                    Text(
-                    '№' + items[i].id.toString(),
-                    style: const TextStyle(
+                  RawMaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => ItemEditPage())
+                      );
+                    },
+                    child: const Icon(
+                      Icons.edit,
+                      size: 30.0,
                       color: Colors.black,
-                      fontWeight: FontWeight.w500,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
