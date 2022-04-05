@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 Widget input(String hint, TextEditingController controller, bool obscure, bool expand, final maxLines, final validator){
-
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 20.0),
     child: TextFormField(

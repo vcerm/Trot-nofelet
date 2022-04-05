@@ -1,4 +1,4 @@
-import 'package:email_validator/email_validator.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +8,7 @@ import 'package:nofelet/pages/profile_page.dart';
 import 'package:nofelet/services/utils.dart';
 import 'package:nofelet/widgets/Add_Button_Widget.dart';
 import 'package:nofelet/widgets/Button_Widget.dart';
+import 'package:validators/validators.dart';
 import '../widgets/UserItemsEditWidget.dart';
 import '../widgets/User_Items_Widget.dart';
 import '../widgets/input.dart';
@@ -42,6 +43,17 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
+
+    dynamic validateEmail(String? value){
+      String pattern =
+          r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+          r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+          r"{0,253}[a-zA-Z0-9])?)*$";
+      RegExp regex = RegExp(pattern);
+      (value == null || value.isEmpty || !regex.hasMatch(value))
+          ? 'Введите корректный email'
+          : null;
+    }
 
     Future _buttonReg() async{
       final isValid = formKey.currentState!.validate();
@@ -126,8 +138,7 @@ class _RegisterState extends State<Register> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: input('Email', _emailController, false, false, 1, (email) =>
-                email != null && !EmailValidator.validate(email)
+                child: input('Email', _emailController, false, false, 1, (email) => !isEmail(email)
                     ? 'Введите корректный email'
                     : null),
               ),

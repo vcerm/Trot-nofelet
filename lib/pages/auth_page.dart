@@ -1,8 +1,9 @@
-import 'package:email_validator/email_validator.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nofelet/pages/main_page.dart';
 import 'package:nofelet/pages/registraion_page.dart';
+import 'package:validators/validators.dart';
 import '../main.dart';
 import '../services/utils.dart';
 import '../widgets/Button_Widget.dart';
@@ -35,6 +36,17 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
 
+    dynamic validateEmail(String? value){
+      String pattern =
+          r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+          r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+          r"{0,253}[a-zA-Z0-9])?)*$";
+      RegExp regex = RegExp(pattern);
+      (value == null || value.isEmpty || !regex.hasMatch(value))
+          ? 'Введите корректный email'
+          : null;
+    }
+
     Future _buttonEnter() async {
       showDialog(
         context: context,
@@ -60,8 +72,7 @@ class _AuthPageState extends State<AuthPage> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(top: 170, bottom: 10),
-            child: input("EMAIL", _emailController, false, false, 1, (email) =>
-            email != null && !EmailValidator.validate(email)
+            child: input("EMAIL", _emailController, false, false, 1, (email) => !isEmail(email)
                 ? 'Введите корректный email'
                 : null),
           ),
