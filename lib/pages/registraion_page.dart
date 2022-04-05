@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nofelet/main.dart';
 import 'package:nofelet/pages/profile_page.dart';
+import 'package:nofelet/services/utils.dart';
 import 'package:nofelet/widgets/Add_Button_Widget.dart';
 import 'package:nofelet/widgets/Button_Widget.dart';
 import '../widgets/UserItemsEditWidget.dart';
@@ -28,6 +29,8 @@ class _RegisterState extends State<Register> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordChekController = TextEditingController();
 
+  final formKey = GlobalKey<FormState>();
+
   @override
   void dispose() {
     _passwordChekController.dispose();
@@ -41,6 +44,9 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
 
     Future _buttonReg() async{
+      final isValid = formKey.currentState!.validate();
+      if(!isValid) return;
+
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -54,6 +60,8 @@ class _RegisterState extends State<Register> {
         );
       } on FirebaseAuthException catch (e) {
         print(e);
+
+        Utils.showSnackBar(e.message);
       }
 
       navigatorKey.currentState!.popUntil((route) => route.isFirst);
@@ -87,67 +95,70 @@ class _RegisterState extends State<Register> {
           ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: <Widget>[
-                  Container(
-                    child: Image.asset(
-                      'assets/images/profile_logo.png',
-                      width: 150,
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Stack(
+                  alignment: Alignment.topCenter,
+                  children: <Widget>[
+                    Container(
+                      child: Image.asset(
+                        'assets/images/profile_logo.png',
+                        width: 150,
+                      ),
                     ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(top: 26),
-                    child: Image.asset(
-                      'assets/images/download.png',
-                      width: 60,
+                    Container(
+                      padding: const EdgeInsets.only(top: 26),
+                      child: Image.asset(
+                        'assets/images/download.png',
+                        width: 60,
+                      ),
                     ),
-                  ),
-                ],
-              )
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: input('Имя', _nameController, false, false, 1, null),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: input('Email', _emailController, false, false, 1, (email) =>
-              email != null && !EmailValidator.validate(email)
-                  ? 'Введите корректный email'
-                  : null),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: input('Пароль', _passwordController, true, false, 1, (value) =>
-              value != null && value.length < 6
-                  ? 'Слишком короткий пароль'
-                  : null),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: input('Повторите пароль', _passwordChekController, true, false, 1, (value) =>
-              value.isEmpty || (value != null && value != _passwordController.text)
-                  ? 'Пароли отличаются'
-                  : null),
-            ),
-            SizedBox(
-              height: 170,
-              child: UserItemsEdit(items: user.items, bottomButton: addButton(addButtonRoute),),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: SizedBox(
-                height: 40,
-                width: 195,
-                child: button('Регистрация', _buttonReg),
+                  ],
+                )
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: input('Имя', _nameController, false, false, 1, null),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: input('Email', _emailController, false, false, 1, (email) =>
+                email != null && !EmailValidator.validate(email)
+                    ? 'Введите корректный email'
+                    : null),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: input('Пароль', _passwordController, true, false, 1, (value) =>
+                value != null && value.length < 6
+                    ? 'Слишком короткий пароль'
+                    : null),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: input('Повторите пароль', _passwordChekController, true, false, 1, (value) =>
+                value.isEmpty || (value != null && value != _passwordController.text)
+                    ? 'Пароли отличаются'
+                    : null),
+              ),
+              SizedBox(
+                height: 170,
+                child: UserItemsEdit(items: user.items, bottomButton: addButton(addButtonRoute),),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: SizedBox(
+                  height: 40,
+                  width: 195,
+                  child: button('Регистрация', _buttonReg),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nofelet/pages/main_page.dart';
 import 'package:nofelet/pages/registraion_page.dart';
 import '../main.dart';
+import '../services/utils.dart';
 import '../widgets/Button_Widget.dart';
 import '../widgets/input.dart';
 
@@ -47,6 +48,7 @@ class _AuthPageState extends State<AuthPage> {
             password: _passwordController.text.trim(),);
         } on FirebaseAuthException catch (e) {
           print(e);
+          Utils.showSnackBar(e.message);
         }
       navigatorKey.currentState!.popUntil((route) => route.isFirst);
     }

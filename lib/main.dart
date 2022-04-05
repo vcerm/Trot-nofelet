@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nofelet/pages/auth_page.dart';
+import 'package:nofelet/services/utils.dart';
 import 'package:nofelet/widgets/chek_auth_widget.dart';
 import 'package:nofelet/pages/main_page.dart';
 void main() async {
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: messengerKey,
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Inter'),
