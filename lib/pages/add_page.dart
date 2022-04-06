@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:nofelet/models/item.dart';
+import 'package:nofelet/models/user.dart';
 import 'package:nofelet/widgets/Add_Button_Widget.dart';
 import 'package:nofelet/widgets/Add_Item_Image.dart';
 import 'package:nofelet/widgets/input.dart';
 
 class AddItem extends StatefulWidget {
-  const AddItem({Key? key}) : super(key: key);
+  final Item? item;
+
+  const AddItem({Key? key, this.item}) : super(key: key);
 
   @override
   State<AddItem> createState() => _AddItemState();
@@ -13,6 +17,21 @@ class AddItem extends StatefulWidget {
 class _AddItemState extends State<AddItem> {
 
   final _description = TextEditingController();
+  late UserPerson user;
+  Item itemEdit = Item();
+
+  @override
+  void initState() {
+    if (widget.item != null) itemEdit = widget.item!.copy();
+    super.initState();
+  }
+
+  void _saveButton() async {
+    if(itemEdit.id == null ){
+      itemEdit.author == user.id;
+    }
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,14 +74,14 @@ class _AddItemState extends State<AddItem> {
                   builder: (context, constraints) {
                     return SizedBox(
                       height: constraints.maxHeight / 9,
-                      child: input('Описание', _description, false, true, null, null)
+                      child: input('Описание', _description, false, true, null, null, null)
                     );
                   }),
                 ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: addButton((){Navigator.pop(context);}),
+              child: addButton(_saveButton),
             )
           ],
         ),

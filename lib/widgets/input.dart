@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget input(String hint, TextEditingController controller, bool obscure, bool expand, final maxLines, final validator){
+Widget input(String hint, TextEditingController controller, bool obscure, bool expand, final maxLines, final chang, final validator){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 20.0),
     child: TextFormField(
@@ -35,6 +35,7 @@ Widget input(String hint, TextEditingController controller, bool obscure, bool e
       ),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: validator,
+      onChanged: chang,
     ),
   );
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nofelet/models/item_other.dart';
+import 'package:nofelet/models/user.dart';
 import 'package:nofelet/pages/profile_page.dart';
 import 'package:nofelet/widgets/User_Preferences.dart';
 import 'package:nofelet/widgets/list_items.dart';
@@ -21,7 +22,7 @@ class ItemEditPage extends StatefulWidget {
   _ItemEditPageState createState() => _ItemEditPageState();
 }
 
-final user = UserPreferences.myUser;
+late UserPerson user;
 final item = ItemPreferences.item;
 
 class _ItemEditPageState extends State<ItemEditPage> {
@@ -79,8 +80,8 @@ class _ItemEditPageState extends State<ItemEditPage> {
         children: [
           ItemWidget(
             ImagePath: item.photo,
-            Name: user.name,
-            Email: user.email,
+            Name: 'Потный Вилли',
+            Email: user.email!,
           ),
           SizedBox(height: 10,),
               Flexible(

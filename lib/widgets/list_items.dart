@@ -1,27 +1,44 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:nofelet/models/item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:nofelet/models/user.dart';
+import 'package:nofelet/services/database.dart';
 
-class itemList extends StatefulWidget {
-  const itemList({Key? key}) : super(key: key);
+class ItemList extends StatefulWidget {
+  final Item? item;
+  const ItemList({Key? key, this.item}) : super(key: key);
 
   @override
-  _itemListState createState() => _itemListState();
+  _ItemListState createState() => _ItemListState();
 }
 
-class _itemListState extends State<itemList> {
+class _ItemListState extends State<ItemList> {
+  late UserPerson user;
 
-  void initFirebase() async{
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-  }
+  DatabaseService db = DatabaseService();
+  StreamSubscription<List<Item>>? itemsStreamSubscription;
+  late List<Item> items;
 
   @override
-  void initState(){
-    super.initState();
+  void dispose() {
+    if(itemsStreamSubscription != null){
+      print('Unsubscribing');
+      itemsStreamSubscription?.cancel();
+    }
+    super.dispose();
+  }
 
-    initFirebase();
+  Future<void> loadData() async{
+    var stream = db.getItems(null);
+
+    itemsStreamSubscription = stream.listen((List<Item> data) {
+      setState(() {
+        items = data;
+      });
+    });
   }
 
   @override
@@ -31,20 +48,21 @@ class _itemListState extends State<itemList> {
       itemBuilder: (context, i){
         return Container(
           child: Card(
-            elevation: 2,
+            key: Key(items[i].id.toString()),
+            elevation: 2.0,
             margin: const EdgeInsets.symmetric(vertical: 9.0, horizontal: 16),
             child: Container(
               decoration: const BoxDecoration(color: Color(0xffecd9cc),),
               child: ListTile(
                 leading: Image.asset(
-                  items[i].photo,
+                  'assets/images/item_image.png',
                   fit: BoxFit.fill,
                 ),
                 contentPadding: const EdgeInsets.all(6.0),
                 title: Container(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: Text(
-                    items[i].description,
+                    items[i].description.toString(),
                     style: const TextStyle(
                       fontSize: 13,
                     ),
@@ -54,7 +72,7 @@ class _itemListState extends State<itemList> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      items[i].author,
+                      items[i].author.toString(),
                       style: const TextStyle(
                         letterSpacing: 3.0,
                         color: Colors.black,

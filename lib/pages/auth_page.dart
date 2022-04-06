@@ -1,6 +1,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nofelet/models/user.dart';
 import 'package:nofelet/pages/main_page.dart';
 import 'package:nofelet/pages/registraion_page.dart';
 import 'package:validators/validators.dart';
@@ -47,7 +48,7 @@ class _AuthPageState extends State<AuthPage> {
           : null;
     }
 
-    Future _buttonEnter() async {
+    Future<UserPerson?> _buttonEnter() async {
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -55,12 +56,15 @@ class _AuthPageState extends State<AuthPage> {
       );
 
         try {
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
+          UserCredential result = await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: _emailController.text.trim(),
             password: _passwordController.text.trim(),);
+          User user = result.user!;
+          return UserPerson.fromFirebase(user);
         } on FirebaseAuthException catch (e) {
           print(e);
           Utils.showSnackBar(e.message);
+          return null;
         }
       navigatorKey.currentState!.popUntil((route) => route.isFirst);
     }
@@ -72,13 +76,13 @@ class _AuthPageState extends State<AuthPage> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(top: 170, bottom: 10),
-            child: input("EMAIL", _emailController, false, false, 1, (email) => !isEmail(email)
+            child: input("EMAIL", _emailController, false, false, 1, null,(email) => !isEmail(email)
                 ? 'Введите корректный email'
                 : null),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: input("PASSWORD", _passwordController, true, false, 1, null),
+            child: input("PASSWORD", _passwordController, true, false, 1, null, null),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),

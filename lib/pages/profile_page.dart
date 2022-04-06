@@ -1,11 +1,16 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nofelet/models/user.dart';
 import 'package:nofelet/pages/auth_page.dart';
 import 'package:nofelet/pages/profile_edit_page.dart';
 import 'package:nofelet/widgets/Button_Widget.dart';
 import 'package:nofelet/widgets/User_Preferences.dart';
 import 'package:nofelet/widgets/list_items.dart';
 
+import '../models/item.dart';
+import '../services/database.dart';
 import '../widgets/Profile_Widget.dart';
 import '../widgets/User_Items_Widget.dart';
 import 'main_page.dart';
@@ -17,14 +22,38 @@ class ProfilePage extends StatefulWidget {
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-final user = UserPreferences.myUser;
+
 
 class _ProfilePageState extends State<ProfilePage> {
+  late final UserPerson user;
+  DatabaseService db = DatabaseService();
+  StreamSubscription<List<Item>>? itemsStreamSubscription;
+  late List<Item> items;
+
+  @override
+  void dispose() {
+    if(itemsStreamSubscription != null){
+      print('Unsubscribing');
+      itemsStreamSubscription?.cancel();
+    }
+    super.dispose();
+  }
+
+  Future<void> loadData() async{
+    var stream = db.getItems(user.id);
+
+    itemsStreamSubscription = stream.listen((List<Item> data) {
+      setState(() {
+        items = data;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
 
-    void _buttonExit(){
-      FirebaseAuth.instance.signOut();
+    Future _buttonExit() async{
+      await FirebaseAuth.instance.signOut();
     }
 
 
@@ -71,9 +100,9 @@ class _ProfilePageState extends State<ProfilePage> {
         Column(
               children: [
                 ProfileWidget(
-                  ImagePath: user.photo,
-                  Name: user.name,
-                  Email: user.email,
+                  ImagePath: 'assets/images/User_image.jpg',
+                  Name: 'Потный Вилли',
+                  Email: user.email!,
                 ),
                 const Divider(
                   color: Colors.black,
@@ -84,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 Container(
                   height: 400,
-                  child: UserItemsWidget(items: user.items, bottomButton: Container(),),
+                  child: UserItemsWidget(items: items, bottomButton: Container(),),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 30.0),

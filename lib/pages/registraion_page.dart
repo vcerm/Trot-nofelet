@@ -1,3 +1,4 @@
+import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,7 +9,11 @@ import 'package:nofelet/pages/profile_page.dart';
 import 'package:nofelet/services/utils.dart';
 import 'package:nofelet/widgets/Add_Button_Widget.dart';
 import 'package:nofelet/widgets/Button_Widget.dart';
+import 'package:nofelet/widgets/list_items.dart';
 import 'package:validators/validators.dart';
+import '../models/item.dart';
+import '../models/user.dart';
+import '../services/database.dart';
 import '../widgets/UserItemsEditWidget.dart';
 import '../widgets/User_Items_Widget.dart';
 import '../widgets/input.dart';
@@ -32,28 +37,33 @@ class _RegisterState extends State<Register> {
 
   final formKey = GlobalKey<FormState>();
 
+  late UserPerson user;
+
+  var db = DatabaseService();
+  StreamSubscription<List<Item>>? itemsStreamSubscription;
+  late List<Item> items;
+
   @override
   void dispose() {
-    _passwordChekController.dispose();
-    _nameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
+    if(itemsStreamSubscription != null){
+      print('Unsubscribing');
+      itemsStreamSubscription?.cancel();
+    }
     super.dispose();
+  }
+
+  Future<void> loadData() async{
+    var stream = db.getItems(null);
+
+    itemsStreamSubscription = stream.listen((List<Item> data) {
+      setState(() {
+        items = data;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-
-    dynamic validateEmail(String? value){
-      String pattern =
-          r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-          r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-          r"{0,253}[a-zA-Z0-9])?)*$";
-      RegExp regex = RegExp(pattern);
-      (value == null || value.isEmpty || !regex.hasMatch(value))
-          ? 'Введите корректный email'
-          : null;
-    }
 
     Future _buttonReg() async{
       final isValid = formKey.currentState!.validate();
@@ -66,23 +76,38 @@ class _RegisterState extends State<Register> {
       );
 
       try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        UserCredential result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
+        User user = result.user!;
+        return UserPerson.fromFirebase(user);
       } on FirebaseAuthException catch (e) {
         print(e);
 
         Utils.showSnackBar(e.message);
       }
 
+      _emailController.clear();
+      _passwordController.clear();
+      _passwordChekController.clear();
+      _nameController.clear();
+
       navigatorKey.currentState!.popUntil((route) => route.isFirst);
     }
 
-    void addButtonRoute(){
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => AddItem()));
+    void addButtonRoute() async{
+      var itemAdd = await Navigator.push<Item>(
+        context, MaterialPageRoute(builder: (ctx) => AddItem()));
+      if (itemAdd != null){
+        setState(() {
+
+        });
+      }
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => AddItem()));
     }
+
 
     return Scaffold(
       backgroundColor: const Color(0xffebddd3),
@@ -134,31 +159,31 @@ class _RegisterState extends State<Register> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: input('Имя', _nameController, false, false, 1, null),
+                child: input('Имя', _nameController, false, false, 1, null, null),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: input('Email', _emailController, false, false, 1, (email) => !isEmail(email)
+                child: input('Email', _emailController, false, false, 1, null,(email) => !isEmail(email)
                     ? 'Введите корректный email'
                     : null),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: input('Пароль', _passwordController, true, false, 1, (value) =>
+                child: input('Пароль', _passwordController, true, false, 1, null,(value) =>
                 value != null && value.length < 6
                     ? 'Слишком короткий пароль'
                     : null),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: input('Повторите пароль', _passwordChekController, true, false, 1, (value) =>
+                child: input('Повторите пароль', _passwordChekController, true, false, 1, null,(value) =>
                 value.isEmpty || (value != null && value != _passwordController.text)
                     ? 'Пароли отличаются'
                     : null),
               ),
               SizedBox(
                 height: 170,
-                child: UserItemsEdit(items: user.items, bottomButton: addButton(addButtonRoute),),
+                child: UserItemsEdit(items: items, bottomButton: addButton(addButtonRoute),),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),

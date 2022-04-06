@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nofelet/models/user.dart';
 import 'package:nofelet/pages/add_page.dart';
 import 'package:nofelet/pages/profile_page.dart';
 import 'package:nofelet/widgets/UserItemsEditWidget.dart';
 import 'package:nofelet/widgets/edit_profile_widget.dart';
 
+import '../models/item.dart';
+import '../services/database.dart';
 import '../widgets/Button_Widget.dart';
 import '../widgets/Text_Field_Widget.dart';
 import '../widgets/User_Items_Widget.dart';
@@ -17,9 +22,32 @@ class ProfileEdit extends StatefulWidget {
   _ProfileEditState createState() => _ProfileEditState();
 }
 
-final user = UserPreferences.myUser;
+late UserPerson user;
 
 class _ProfileEditState extends State<ProfileEdit> {
+
+  DatabaseService db = DatabaseService();
+  StreamSubscription<List<Item>>? itemsStreamSubscription;
+  late List<Item> items;
+
+  @override
+  void dispose() {
+    if(itemsStreamSubscription != null){
+      print('Unsubscribing');
+      itemsStreamSubscription?.cancel();
+    }
+    super.dispose();
+  }
+
+  Future<void> loadData() async{
+    var stream = db.getItems(null);
+
+    itemsStreamSubscription = stream.listen((List<Item> data) {
+      setState(() {
+        items = data;
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -55,7 +83,7 @@ class _ProfileEditState extends State<ProfileEdit> {
           Row(
             children: [
               EditProfile(
-                imagePath: user.photo,
+                imagePath: 'assets/images/User_image.jpg',
                 onClicked: () async {},
               ),
               const VerticalDivider(width: 15, thickness: 0,),
@@ -69,7 +97,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                       child: TextFieldWidget(
                         minLines: 1,
                         label: 'Имя',
-                        text: user.name,
+                        text: 'Потный Вилли',
                         onChanged: (name) {},
                       ),
                     ),
@@ -77,7 +105,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                       child: TextFieldWidget(
                         minLines: 1,
                         label: 'Email',
-                        text: user.email,
+                        text: user.email!,
                         onChanged: (email) {},
                       ),
                     ),
@@ -98,7 +126,7 @@ class _ProfileEditState extends State<ProfileEdit> {
             flex: 5,
             child: SizedBox(
               height: 450,
-              child: UserItemsEdit(items: user.items, bottomButton: _Addbutton()),
+              child: UserItemsEdit(items: items, bottomButton: _Addbutton()),
             ),
           ),
           Flexible(

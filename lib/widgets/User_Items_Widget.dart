@@ -29,14 +29,14 @@ class UserItemsWidget extends StatelessWidget {
             decoration: const BoxDecoration(color: Color(0xffecd9cc),),
             child: ListTile(
               leading: Image.asset(
-                items[i].photo,
+                'assets/images/item_image.png',
                 fit: BoxFit.fill,
               ),
               contentPadding: const EdgeInsets.all(6.0),
               title: Container(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: Text(
-                  items[i].description,
+                  items[i].description.toString(),
                   style: const TextStyle(
                     fontSize: 13,
                   ),
@@ -46,7 +46,7 @@ class UserItemsWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    items[i].author,
+                    items[i].author.toString(),
                     style: const TextStyle(
                       letterSpacing: 3.0,
                       color: Colors.black,
