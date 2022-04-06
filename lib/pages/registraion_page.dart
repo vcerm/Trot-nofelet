@@ -10,6 +10,7 @@ import 'package:nofelet/services/utils.dart';
 import 'package:nofelet/widgets/Add_Button_Widget.dart';
 import 'package:nofelet/widgets/Button_Widget.dart';
 import 'package:nofelet/widgets/list_items.dart';
+import 'package:provider/provider.dart';
 import 'package:validators/validators.dart';
 import '../models/item.dart';
 import '../models/user.dart';
@@ -64,7 +65,8 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-
+    // user = Provider.of<UserPerson>(context);
+    loadData();
     Future _buttonReg() async{
       final isValid = formKey.currentState!.validate();
       if(!isValid) return;

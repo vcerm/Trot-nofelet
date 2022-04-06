@@ -8,17 +8,15 @@ import 'package:nofelet/models/user.dart';
 import 'package:nofelet/services/database.dart';
 
 class ItemList extends StatefulWidget {
-  final Item? item;
-  const ItemList({Key? key, this.item}) : super(key: key);
+  const ItemList({Key? key,}) : super(key: key);
 
   @override
   _ItemListState createState() => _ItemListState();
 }
 
 class _ItemListState extends State<ItemList> {
-  late UserPerson user;
 
-  DatabaseService db = DatabaseService();
+  var db = DatabaseService();
   StreamSubscription<List<Item>>? itemsStreamSubscription;
   late List<Item> items;
 
@@ -43,12 +41,13 @@ class _ItemListState extends State<ItemList> {
 
   @override
   Widget build(BuildContext context) {
+    loadData();
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (context, i){
         return Container(
           child: Card(
-            key: Key(items[i].id.toString()),
+            // key: Key(items[i].id!),
             elevation: 2.0,
             margin: const EdgeInsets.symmetric(vertical: 9.0, horizontal: 16),
             child: Container(
@@ -62,7 +61,7 @@ class _ItemListState extends State<ItemList> {
                 title: Container(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: Text(
-                    items[i].description.toString(),
+                    items[i].description!,
                     style: const TextStyle(
                       fontSize: 13,
                     ),
@@ -72,7 +71,7 @@ class _ItemListState extends State<ItemList> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      items[i].author.toString(),
+                      items[i].author!,
                       style: const TextStyle(
                         letterSpacing: 3.0,
                         color: Colors.black,
@@ -80,7 +79,7 @@ class _ItemListState extends State<ItemList> {
                       ),
                     ),
                     Text(
-                      '№' + items[i].id.toString(),
+                      '№' + items[i].id!,
                       style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w500,

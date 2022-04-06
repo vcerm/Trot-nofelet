@@ -10,8 +10,8 @@ class Item {
   Item({this.id, this.author, this.description});
 
   Item.fromJson(final data, {@required this.id}) {
-    author = data['author'];
-    description = data['description'];
+    author = data['Author'];
+    description = data['Description'];
   }
 
   Item copy(){

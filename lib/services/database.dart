@@ -8,26 +8,20 @@ class DatabaseService{
 
   Future addOrUpdateItem(Item item) async {
     DocumentReference itemRef = _itemsCollection.doc(item.id);
-    return itemRef.set({
-      'author' : item.author,
-      'description' : item.description
-    }).then((_) async{
-      var docId = itemRef.id;
-      await _userItemsCollection.doc(docId).set({
-        'author' : item.author,
-        'description' : item.description
-      });
+    return await itemRef.set({
+      'Author' : item.author,
+      'Description' : item.description
     });
   }
 
-  Stream<List<Item>> getItems(String? author){
+  Stream<List<Item>> getItems(String? author) {
     Query query;
     if(author != null) {
-      query = _itemsCollection.where('author', isEqualTo: author);
+      query = _itemsCollection.where('Author', isEqualTo: author);
     } else {
       query = _itemsCollection;
     }
     return query.snapshots().map((QuerySnapshot data) =>
-      data.docs.map((DocumentSnapshot doc) => Item.fromJson(doc.data, id: doc.id)).toList());
+      data.docs.map((DocumentSnapshot doc) => Item.fromJson(doc.data, id: 'cwLTrbcPNH0jRprsRgge')).toList());
   }
 }
