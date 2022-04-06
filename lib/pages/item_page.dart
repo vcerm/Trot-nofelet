@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nofelet/models/item_other.dart';
 import 'package:nofelet/models/user.dart';
-import 'package:nofelet/widgets/User_Preferences.dart';
-import 'package:nofelet/widgets/list_items.dart';
-
-import '../widgets/Profile_Widget.dart';
-import '../widgets/User_Items_Widget.dart';
-import '../models/item.dart';
 import '../widgets/Item_Widget.dart';
 import 'main_page.dart';
 import '../widgets/Item_Widget.dart';

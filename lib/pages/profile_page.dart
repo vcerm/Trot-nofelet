@@ -26,7 +26,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   late final UserPerson user;
-  DatabaseService db = DatabaseService();
+  DatabaseService db = DatabaseService(uid: '');
   StreamSubscription<List<Item>>? itemsStreamSubscription;
   late List<Item> items;
 

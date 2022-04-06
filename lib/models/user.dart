@@ -16,8 +16,16 @@ class UserPerson {
   String? id;
   String? email;
 
+  UserPerson({this.id, this.email});
+
   UserPerson.fromFirebase(User user){
     id = user.uid;
     email = user.email;
+  }
+
+
+  UserPerson.fromJson(String id, Map<String, dynamic> data) {
+    id = id;
+    email = data['email'];
   }
 }

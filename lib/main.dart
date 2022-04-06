@@ -6,7 +6,10 @@ import 'package:nofelet/models/user.dart';
 import 'package:nofelet/pages/auth_page.dart';
 import 'package:nofelet/pages/item_edit_page.dart';
 import 'package:nofelet/pages/item_page.dart';
+import 'package:nofelet/pages/landing.dart';
+import 'package:nofelet/pages/registraion_page.dart';
 import 'package:nofelet/services/auth.dart';
+import 'package:nofelet/services/database.dart';
 import 'package:nofelet/services/get_stream.dart';
 import 'package:nofelet/services/utils.dart';
 import 'package:nofelet/widgets/chek_auth_widget.dart';
@@ -33,15 +36,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider.value(
-      value: GetStream().currentUser,
+    return StreamProvider<UserPerson?>.value(
+      value: AuthService().currentUser,
       initialData: null,
       child: MaterialApp(
         scaffoldMessengerKey: messengerKey,
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: 'Inter'),
-        home: MainPage(),
+        home: LandingPage(),
       ),
     );
   }

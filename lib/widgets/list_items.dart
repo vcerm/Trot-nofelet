@@ -18,7 +18,7 @@ class ItemList extends StatefulWidget {
 class _ItemListState extends State<ItemList> {
   late UserPerson user;
 
-  DatabaseService db = DatabaseService();
+  DatabaseService db = DatabaseService(uid: '');
   StreamSubscription<List<Item>>? itemsStreamSubscription;
 
   @override

@@ -40,9 +40,9 @@ class _RegisterState extends State<Register> {
 
   late UserPerson user;
 
-  var db = DatabaseService();
+  var db = DatabaseService(uid: '');
   StreamSubscription<List<Item>>? itemsStreamSubscription;
-  late List<Item> items;
+  var items = <Item>[];
 
   @override
   void dispose() {
@@ -83,6 +83,7 @@ class _RegisterState extends State<Register> {
           password: _passwordController.text.trim(),
         );
         User user = result.user!;
+        await DatabaseService(uid: user.uid).updateUserData(_nameController.text.trim(), _emailController.text.trim());
         return UserPerson.fromFirebase(user);
       } on FirebaseAuthException catch (e) {
         print(e);
@@ -161,11 +162,11 @@ class _RegisterState extends State<Register> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: input('Имя', _nameController, false, false, 1, null, null),
+                child: input('Имя', _nameController, false, false, 10, null, null),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: input('Email', _emailController, false, false, 1, null,(email) => !isEmail(email)
+                child: input('Email', _emailController, false, false, 10, null,(email) => !isEmail(email)
                     ? 'Введите корректный email'
                     : null),
               ),

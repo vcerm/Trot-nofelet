@@ -26,7 +26,7 @@ late UserPerson user;
 
 class _ProfileEditState extends State<ProfileEdit> {
 
-  DatabaseService db = DatabaseService();
+  DatabaseService db = DatabaseService(uid: '');
   StreamSubscription<List<Item>>? itemsStreamSubscription;
   late List<Item> items;
 

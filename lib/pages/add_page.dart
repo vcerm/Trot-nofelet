@@ -26,6 +26,11 @@ class _AddItemState extends State<AddItem> {
     super.initState();
   }
 
+  var users = <UserPerson>[];
+
+  void _getAuthorName(){
+  }
+
   void _saveButton() async {
     if(itemEdit.id == null ){
       itemEdit.author == user.id;

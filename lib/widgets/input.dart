@@ -26,7 +26,7 @@ Widget input(String hint, TextEditingController controller, bool obscure, bool e
         ),
       ),
       expands: expand,
-      maxLines: 30,
+      maxLines: 1,
       controller: controller,
       obscureText: obscure,
       style: const TextStyle(
