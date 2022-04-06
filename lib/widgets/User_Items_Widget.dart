@@ -15,7 +15,7 @@ class UserItemsWidget extends StatefulWidget {
 }
 
 class _UserItemsWidgetState extends State<UserItemsWidget> {
-  DatabaseService db = DatabaseService();
+  DatabaseService db = DatabaseService(uid: '');
   StreamSubscription<List<Item>>? itemsStreamSubscription;
 
   @override
