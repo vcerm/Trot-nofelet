@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:nofelet/models/user.dart';
 import 'package:nofelet/pages/main_page.dart';
 import 'package:nofelet/pages/registraion_page.dart';
+import 'package:nofelet/services/auth.dart';
 import 'package:validators/validators.dart';
 import '../main.dart';
 import '../models/item.dart';
@@ -28,6 +29,8 @@ class _AuthPageState extends State<AuthPage> {
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  AuthService _authService = AuthService();
 
   // bool showLogin = true;
 

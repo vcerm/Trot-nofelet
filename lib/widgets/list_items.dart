@@ -8,17 +8,26 @@ import 'package:nofelet/models/user.dart';
 import 'package:nofelet/services/database.dart';
 
 class ItemList extends StatefulWidget {
-  const ItemList({Key? key,}) : super(key: key);
+  final Item? item;
+  const ItemList({Key? key, this.item}) : super(key: key);
 
   @override
   _ItemListState createState() => _ItemListState();
 }
 
 class _ItemListState extends State<ItemList> {
+  late UserPerson user;
 
-  var db = DatabaseService();
+  DatabaseService db = DatabaseService();
   StreamSubscription<List<Item>>? itemsStreamSubscription;
-  late List<Item> items;
+
+  @override
+  void initState(){
+    loadData();
+    super.initState();
+  }
+
+  var items = <Item>[];
 
   @override
   void dispose() {
@@ -29,10 +38,10 @@ class _ItemListState extends State<ItemList> {
     super.dispose();
   }
 
-  Future<void> loadData() async{
-    var stream = db.getItems(null);
 
-    itemsStreamSubscription = stream.listen((List<Item> data) {
+  loadData() async{
+    var stream = db.getItems(null);
+      stream.listen((List<Item> data) {
       setState(() {
         items = data;
       });
@@ -41,13 +50,12 @@ class _ItemListState extends State<ItemList> {
 
   @override
   Widget build(BuildContext context) {
-    loadData();
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (context, i){
         return Container(
           child: Card(
-            // key: Key(items[i].id!),
+            key: Key(items[i].id.toString()),
             elevation: 2.0,
             margin: const EdgeInsets.symmetric(vertical: 9.0, horizontal: 16),
             child: Container(
@@ -61,7 +69,7 @@ class _ItemListState extends State<ItemList> {
                 title: Container(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: Text(
-                    items[i].description!,
+                    items[i].description.toString(),
                     style: const TextStyle(
                       fontSize: 13,
                     ),
@@ -71,7 +79,7 @@ class _ItemListState extends State<ItemList> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      items[i].author!,
+                      items[i].author.toString(),
                       style: const TextStyle(
                         letterSpacing: 3.0,
                         color: Colors.black,
@@ -79,7 +87,7 @@ class _ItemListState extends State<ItemList> {
                       ),
                     ),
                     Text(
-                      '№' + items[i].id!,
+                      '№' + items[i].id.toString(),
                       style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w500,

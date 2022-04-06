@@ -9,7 +9,8 @@ class Item {
 
   Item({this.id, this.author, this.description});
 
-  Item.fromJson(final data, {@required this.id}) {
+  Item.fromJson(String id, Map<String, dynamic> data) {
+    id = id;
     author = data['Author'];
     description = data['Description'];
   }
