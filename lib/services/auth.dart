@@ -26,7 +26,12 @@ class AuthService{
   }
 
   Future logOut() async{
+    try{
     await _fAuth.signOut();
+    } catch(e){
+      print(e.toString());
+      return null;
+    }
   }
 
   Stream<UserPerson?> get currentUser{

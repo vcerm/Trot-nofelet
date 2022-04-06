@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:nofelet/pages/profile_page.dart';
+import 'package:nofelet/services/auth.dart';
 import 'package:nofelet/widgets/list_items.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,6 +19,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
 
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +54,18 @@ class _MainPageState extends State<MainPage> {
             color: Color(0xffebddd3),
           ),
         ),
+        actions: [
+          RawMaterialButton(
+            onPressed: () async{
+              await _auth.logOut();
+            },
+            child: const Icon(
+              Icons.exit_to_app,
+              size: 30.0,
+              color: Color(0xffebddd3),
+            ),
+          )
+        ],
         backgroundColor: const Color(0xff7d5538),
         shadowColor: Colors.transparent,
       ),
