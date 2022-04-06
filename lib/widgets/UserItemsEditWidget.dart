@@ -1,13 +1,48 @@
 import 'package:flutter/material.dart';
-
+import 'dart:async';
 import '../models/item.dart';
+import '../services/database.dart';
 
-class UserItemsEdit extends StatelessWidget {
+class UserItemsEdit extends StatefulWidget {
 
-  final List<Item> items;
+  // final List<Item> items;
   final Widget bottomButton;
 
-  const UserItemsEdit({Key? key, required this.items, required this.bottomButton}) : super(key: key);
+  const UserItemsEdit({Key? key, required this.bottomButton}) : super(key: key);
+
+  @override
+  State<UserItemsEdit> createState() => _UserItemsEditState();
+}
+
+class _UserItemsEditState extends State<UserItemsEdit> {
+  DatabaseService db = DatabaseService();
+  StreamSubscription<List<Item>>? itemsStreamSubscription;
+
+  @override
+  void initState(){
+    loadData();
+    super.initState();
+  }
+
+  var items = <Item>[];
+
+  @override
+  void dispose() {
+    if(itemsStreamSubscription != null){
+      print('Unsubscribing');
+      itemsStreamSubscription?.cancel();
+    }
+    super.dispose();
+  }
+
+  loadData() async{
+    var stream = db.getItems(null);
+    stream.listen((List<Item> data) {
+      setState(() {
+        items = data;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +52,7 @@ class UserItemsEdit extends StatelessWidget {
         if(i == items.length){
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 10.0),
-            child: bottomButton,
+            child: widget.bottomButton,
           );
         }
         return Card(
