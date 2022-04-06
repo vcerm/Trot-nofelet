@@ -38,35 +38,9 @@ class _RegisterState extends State<Register> {
 
   final formKey = GlobalKey<FormState>();
 
-  late UserPerson user;
-
-  var db = DatabaseService();
-  StreamSubscription<List<Item>>? itemsStreamSubscription;
-  late List<Item> items;
-
-  @override
-  void dispose() {
-    if(itemsStreamSubscription != null){
-      print('Unsubscribing');
-      itemsStreamSubscription?.cancel();
-    }
-    super.dispose();
-  }
-
-  Future<void> loadData() async{
-    var stream = db.getItems(null);
-
-    itemsStreamSubscription = stream.listen((List<Item> data) {
-      setState(() {
-        items = data;
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    // user = Provider.of<UserPerson>(context);
-    loadData();
     Future _buttonReg() async{
       final isValid = formKey.currentState!.validate();
       if(!isValid) return;
@@ -185,7 +159,7 @@ class _RegisterState extends State<Register> {
               ),
               SizedBox(
                 height: 170,
-                child: UserItemsEdit(items: items, bottomButton: addButton(addButtonRoute),),
+                child: UserItemsEdit(bottomButton: addButton(addButtonRoute),),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),

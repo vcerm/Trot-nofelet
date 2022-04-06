@@ -1,15 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:nofelet/pages/item_edit_page.dart';
-
+import 'dart:async';
 import '../models/item.dart';
+import '../services/database.dart';
 
-class UserItemsWidget extends StatelessWidget {
+class UserItemsWidget extends StatefulWidget {
 
-  final List<Item> items;
   final Widget bottomButton;
 
-  const UserItemsWidget({Key? key, required this.items, required this.bottomButton}) : super(key: key);
+  const UserItemsWidget({Key? key, required this.bottomButton}) : super(key: key);
 
+  @override
+  State<UserItemsWidget> createState() => _UserItemsWidgetState();
+}
+
+class _UserItemsWidgetState extends State<UserItemsWidget> {
+  DatabaseService db = DatabaseService();
+  StreamSubscription<List<Item>>? itemsStreamSubscription;
+
+  @override
+  void initState(){
+    loadData();
+    super.initState();
+  }
+
+  var items = <Item>[];
+
+  @override
+  void dispose() {
+    if(itemsStreamSubscription != null){
+      print('Unsubscribing');
+      itemsStreamSubscription?.cancel();
+    }
+    super.dispose();
+  }
+
+  loadData() async{
+    var stream = db.getItems(null);
+    stream.listen((List<Item> data) {
+      setState(() {
+        items = data;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +52,7 @@ class UserItemsWidget extends StatelessWidget {
         if(i == items.length){
           return Container(
             margin: const EdgeInsets.symmetric(horizontal: 100),
-            child: bottomButton,
+            child: widget.bottomButton,
           );
         }
         return Card(
@@ -74,5 +107,5 @@ class UserItemsWidget extends StatelessWidget {
     );
 
   }
- }
+}
 

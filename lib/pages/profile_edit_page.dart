@@ -126,7 +126,7 @@ class _ProfileEditState extends State<ProfileEdit> {
             flex: 5,
             child: SizedBox(
               height: 450,
-              child: UserItemsEdit(items: items, bottomButton: _Addbutton()),
+              child: UserItemsEdit(bottomButton: _Addbutton()),
             ),
           ),
           Flexible(

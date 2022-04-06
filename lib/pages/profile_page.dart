@@ -25,7 +25,6 @@ class ProfilePage extends StatefulWidget {
 
 
 class _ProfilePageState extends State<ProfilePage> {
-  late final UserPerson user;
   DatabaseService db = DatabaseService();
   StreamSubscription<List<Item>>? itemsStreamSubscription;
   late List<Item> items;
@@ -102,7 +101,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ProfileWidget(
                   ImagePath: 'assets/images/User_image.jpg',
                   Name: 'Потный Вилли',
-                  Email: user.email!,
+                  Email: 'user.email!',
                 ),
                 const Divider(
                   color: Colors.black,
@@ -113,7 +112,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 Container(
                   height: 400,
-                  child: UserItemsWidget(items: items, bottomButton: Container(),),
+                  child: UserItemsWidget( bottomButton: Container(),),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 30.0),
