@@ -5,9 +5,9 @@ import 'package:nofelet/models/user.dart';
 
 class DatabaseService{
 
-  final String uid;
+  final String? uid;
 
-  DatabaseService({required this.uid});
+  DatabaseService({this.uid});
 
   final CollectionReference _itemsCollection = FirebaseFirestore.instance.collection('items');
   final CollectionReference _userItemsCollection = FirebaseFirestore.instance.collection('user_items');

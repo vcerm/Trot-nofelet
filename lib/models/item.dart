@@ -6,6 +6,7 @@ class Item {
   String? description;
   String? author;
   String? id;
+  String? authorId;
 
   Item({this.id, this.author, this.description});
 
