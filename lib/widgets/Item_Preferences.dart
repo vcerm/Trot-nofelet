@@ -5,7 +5,7 @@ import '../models/item_other.dart';
 
 class ItemPreferences{
 
-  static final item = ItemOther(
+  final item = ItemOther(
       description: 'Предлагаю вашем вниманию торты и капкейки на заказ.'
           '\nТорт цифра, сердце, круг зв 1кг 1100 руб.'
           '\nБисквитные торты:'

@@ -92,7 +92,7 @@ class _UserItemsWidgetState extends State<UserItemsWidget> {
                   RawMaterialButton(
                     onPressed: () {
                       Navigator.push(
-                          context, MaterialPageRoute(builder: (context) => ItemEditPage())
+                          context, MaterialPageRoute(builder: (context) => ItemEditPage(id: items[i].id,))
                       );
                     },
                     child: const Icon(

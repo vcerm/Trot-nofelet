@@ -4,7 +4,9 @@ import 'package:nofelet/models/user.dart';
 import 'package:nofelet/pages/profile_page.dart';
 import 'package:nofelet/widgets/User_Preferences.dart';
 import 'package:nofelet/widgets/list_items.dart';
+import 'package:provider/provider.dart';
 
+import '../services/database.dart';
 import '../widgets/Button_Widget.dart';
 import '../widgets/Profile_Widget.dart';
 import '../widgets/Text_Field_Widget.dart';
@@ -16,23 +18,39 @@ import '../widgets/Item_Widget.dart';
 import '../widgets/Item_Preferences.dart';
 
 class ItemEditPage extends StatefulWidget {
-  const ItemEditPage({Key? key}) : super(key: key);
+
+  final String? id;
+
+  const ItemEditPage({Key? key, required this.id}) : super(key: key);
+
 
   @override
   _ItemEditPageState createState() => _ItemEditPageState();
 }
 
 late UserPerson user;
-final item = ItemPreferences.item;
 
 class _ItemEditPageState extends State<ItemEditPage> {
   late final TextEditingController controller;
 
+  UserPerson? user;
+  Item? item;
+  Item itemEdit = Item();
+  var db = DatabaseService();
+
+  void _loadItem(){
+    db.getItemById(widget.id).then((w) {
+      setState(() {
+        item = w;
+      });
+    });
+  }
+
   @override
   void initState(){
     super.initState();
-
-    controller = TextEditingController(text: item.description);
+    _loadItem;
+    controller = TextEditingController(text: item?.description);
   }
 
   @override
@@ -44,10 +62,10 @@ class _ItemEditPageState extends State<ItemEditPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    user = Provider.of<UserPerson>(context);
     void _buttonSave(){
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ProfilePage()));
+      itemEdit.description = controller.text.trim();
+      db.addOrUpdateItem(itemEdit);
     }
 
     return Scaffold(
@@ -79,9 +97,9 @@ class _ItemEditPageState extends State<ItemEditPage> {
       Column(
         children: [
           ItemWidget(
-            ImagePath: item.photo,
+            ImagePath: 'assets/images/item_image.png',
             Name: 'Потный Вилли',
-            Email: user.email!,
+            Email: user?.email,
           ),
           SizedBox(height: 10,),
               Flexible(

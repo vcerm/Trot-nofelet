@@ -31,7 +31,7 @@ class DatabaseService{
       'Description' : item.description,
       'AuthorID' : item.authorId
     });
-  } 
+  }
 
   Stream<List<Item>> getItems(String? author){
     Query query;
@@ -42,6 +42,11 @@ class DatabaseService{
     }
     return query.snapshots().map((QuerySnapshot data) =>
       data.docs.map((DocumentSnapshot doc) => Item.fromJson(doc.id, doc.data() as Map<String, dynamic>)).toList());
+  }
+
+  Future<Item> getItemById(String? id) async{
+    var doc = await _itemsCollection.doc(id).get();
+    return Item.fromJson(doc.id, doc.data as Map<String, dynamic>);
   }
 
   Stream<UserData> get userData{

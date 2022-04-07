@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ItemWidget extends StatelessWidget {
   final String ImagePath;
   final String Name;
-  final String Email;
+  final String? Email;
 
   const ItemWidget(
       {Key? key, required this.ImagePath, required this.Name, required this.Email})
@@ -29,7 +29,7 @@ class ItemWidget extends StatelessWidget {
                   color: Color(0xff64442d),),
               ),
               Text(
-                Email,
+                Email!,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 13,

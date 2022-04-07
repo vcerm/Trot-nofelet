@@ -1,26 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:nofelet/models/item_other.dart';
 import 'package:nofelet/models/user.dart';
+import 'package:nofelet/services/database.dart';
 import 'package:provider/provider.dart';
+import '../models/item.dart';
 import '../widgets/Item_Widget.dart';
+import 'item_edit_page.dart';
 import 'main_page.dart';
 import '../widgets/Item_Widget.dart';
 import '../widgets/Item_Preferences.dart';
 
 class ItemPage extends StatefulWidget {
-  const ItemPage({Key? key}) : super(key: key);
+
+  final String? id;
+
+  const ItemPage({Key? key, required this.id}) : super(key: key);
 
   @override
   _ItemPageState createState() => _ItemPageState();
 }
 
-late final UserPerson user;
-final item = ItemPreferences.item;
 
 class _ItemPageState extends State<ItemPage> {
+  UserPerson? user;
+  Item? item;
+  var db = DatabaseService();
+  @override
+  void initState(){
+    _loadItem;
+    super.initState();
+  }
+
+  void _loadItem(){
+    db.getItemById(widget.id).then((w) {
+      setState(() {
+        item = w;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     user = Provider.of<UserPerson>(context);
+    String? desc = item?.description;
     return Scaffold(
       backgroundColor: const Color(0xffebddd3),
       appBar: AppBar(
@@ -50,13 +72,13 @@ class _ItemPageState extends State<ItemPage> {
       Column(
         children: [
           ItemWidget(
-            ImagePath: item.photo,
+            ImagePath: 'assets/images/item_image.png',
             Name: '',
-            Email: user.email!,
+            Email: user?.email,
           ),
           Container(
            padding: EdgeInsets.symmetric(vertical: 9.0, horizontal: 16),
-            child: Text(item.description)
+            child: Text(desc!)
           )
         ],
       ),

@@ -90,7 +90,7 @@ class _ItemListState extends State<ItemList> {
                     RawMaterialButton(
                       onPressed: () {
                         Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => ItemPage())
+                            context, MaterialPageRoute(builder: (context) => ItemPage(id: items[i].id))
                         );
                       },
                       child: const Icon(
