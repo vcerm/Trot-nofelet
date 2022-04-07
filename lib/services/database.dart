@@ -42,8 +42,6 @@ class DatabaseService{
     }
     return query.snapshots().map((QuerySnapshot data) =>
       data.docs.map((DocumentSnapshot doc) {
-        print(doc.data());
-        print(doc.id);
         return Item.fromJson(doc.id, doc.data() as Map<String, dynamic>);
       }).toList());
   }

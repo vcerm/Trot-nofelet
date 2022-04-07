@@ -10,10 +10,16 @@ class Item {
 
   Item({this.id, this.author, this.description});
 
-  Item.fromJson(String id, Map<String, dynamic> data) {
-    id = id;
+  Item.fromJson(String uid, Map<String, dynamic> data) {
+    id = uid;
     author = data['Author'];
     description = data['Description'];
+  }
+
+
+  @override
+  String toString() {
+    return 'Item{description: $description, author: $author, id: $id, authorId: $authorId}';
   }
 
   Item copy(){
