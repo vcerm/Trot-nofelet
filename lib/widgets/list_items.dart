@@ -5,6 +5,7 @@ import 'package:nofelet/models/item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:nofelet/models/user.dart';
+import 'package:nofelet/pages/item_page.dart';
 import 'package:nofelet/services/database.dart';
 
 class ItemList extends StatefulWidget {
@@ -18,7 +19,7 @@ class ItemList extends StatefulWidget {
 class _ItemListState extends State<ItemList> {
   late UserPerson user;
 
-  DatabaseService db = DatabaseService(uid: '');
+  DatabaseService db = DatabaseService();
   StreamSubscription<List<Item>>? itemsStreamSubscription;
 
   @override
@@ -42,9 +43,9 @@ class _ItemListState extends State<ItemList> {
   loadData() async{
     var stream = db.getItems(null);
       stream.listen((List<Item> data) {
-      setState(() {
+      if(mounted){setState(() {
         items = data;
-      });
+      });}
     });
   }
 
@@ -86,13 +87,18 @@ class _ItemListState extends State<ItemList> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Text(
-                      '№' + items[i].id.toString(),
-                      style: const TextStyle(
+                    RawMaterialButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => ItemPage())
+                        );
+                      },
+                      child: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 30.0,
                         color: Colors.black,
-                        fontWeight: FontWeight.w500,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

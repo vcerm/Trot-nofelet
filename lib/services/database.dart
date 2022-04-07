@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:nofelet/models/item.dart';
@@ -14,41 +15,39 @@ class DatabaseService{
   final CollectionReference _usersCollection = FirebaseFirestore.instance.collection('users_info');
 
   Future updateUserData(String name, String email) async {
-    return await _usersCollection.doc(uid).set({
+    FirebaseAuth auth = FirebaseAuth.instance;
+    String? uID = auth.currentUser?.uid.toString();
+    return await _usersCollection.doc(uID).set({
       'name': name,
       'email': email,
     });
   }
-  
-  Stream<List<UserPerson>> getUserData(){
-    Query query;
-    query = _usersCollection;
-    return query.snapshots().map((QuerySnapshot data) =>
-        data.docs.map((DocumentSnapshot doc) => UserPerson.fromJson(doc.id, doc.data() as Map<String, dynamic>)).toList());
-  }
+
 
   Future addOrUpdateItem(Item item) async {
     DocumentReference itemRef = _itemsCollection.doc(item.id);
     return itemRef.set({
       'Author' : item.author,
-      'Description' : item.description
-    }).then((_) async{
-      var docId = itemRef.id;
-      await _userItemsCollection.doc(docId).set({
-        'Author' : item.author,
-        'Description' : item.description
-      });
+      'Description' : item.description,
+      'AuthorID' : item.authorId
     });
   } 
 
   Stream<List<Item>> getItems(String? author){
     Query query;
     if(author != null) {
-      query = _itemsCollection.where('Author', isEqualTo: author);
+      query = _itemsCollection.where('AuthorID', isEqualTo: author);
     } else {
       query = _itemsCollection;
     }
     return query.snapshots().map((QuerySnapshot data) =>
       data.docs.map((DocumentSnapshot doc) => Item.fromJson(doc.id, doc.data() as Map<String, dynamic>)).toList());
   }
+
+  Stream<UserData> get userData{
+    FirebaseAuth auth = FirebaseAuth.instance;
+    String? uID = auth.currentUser?.uid.toString();
+    return _usersCollection.doc(uID).snapshots().map((DocumentSnapshot doc) => UserData.fromJson(doc.id, doc.data as  Map<String, dynamic>));
+  }
+
 }

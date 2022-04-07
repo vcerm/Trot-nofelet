@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:nofelet/pages/add_page.dart';
 import 'package:nofelet/pages/profile_page.dart';
 import 'package:nofelet/services/auth.dart';
 import 'package:nofelet/widgets/list_items.dart';
@@ -56,8 +57,20 @@ class _MainPageState extends State<MainPage> {
         ),
         actions: [
           RawMaterialButton(
-            onPressed: () async{
-              await _auth.logOut();
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => AddItem())
+              );
+            },
+            child: const Icon(
+              Icons.fullscreen_exit,
+              size: 30.0,
+              color: Color(0xffebddd3),
+            ),
+          ),
+          RawMaterialButton(
+            onPressed: () {
+              AuthService().logOut();
             },
             child: const Icon(
               Icons.exit_to_app,
@@ -66,6 +79,7 @@ class _MainPageState extends State<MainPage> {
             ),
           )
         ],
+
         backgroundColor: const Color(0xff7d5538),
         shadowColor: Colors.transparent,
       ),

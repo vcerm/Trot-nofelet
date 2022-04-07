@@ -38,7 +38,7 @@ class _RegisterState extends State<Register> {
 
   final formKey = GlobalKey<FormState>();
 
-  late UserPerson user;
+  late UserPerson? user;
 
   var db = DatabaseService(uid: '');
   StreamSubscription<List<Item>>? itemsStreamSubscription;
@@ -65,17 +65,11 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    // user = Provider.of<UserPerson>(context);
+    user = Provider.of<UserPerson?>(context);
     loadData();
     Future _buttonReg() async{
       final isValid = formKey.currentState!.validate();
       if(!isValid) return;
-
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => Center(child: CircularProgressIndicator(),),
-      );
 
       try {
         UserCredential result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -162,11 +156,11 @@ class _RegisterState extends State<Register> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: input('Имя', _nameController, false, false, 10, null, null),
+                child: input('Имя', _nameController, false, false, 1, null, null),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: input('Email', _emailController, false, false, 10, null,(email) => !isEmail(email)
+                child: input('Email', _emailController, false, false, 1, null,(email) => !isEmail(email)
                     ? 'Введите корректный email'
                     : null),
               ),

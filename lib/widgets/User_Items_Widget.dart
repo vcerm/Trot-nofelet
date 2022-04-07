@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nofelet/pages/item_edit_page.dart';
 import 'dart:async';
@@ -15,7 +16,7 @@ class UserItemsWidget extends StatefulWidget {
 }
 
 class _UserItemsWidgetState extends State<UserItemsWidget> {
-  DatabaseService db = DatabaseService(uid: '');
+  DatabaseService db = DatabaseService();
   StreamSubscription<List<Item>>? itemsStreamSubscription;
 
   @override
@@ -36,7 +37,9 @@ class _UserItemsWidgetState extends State<UserItemsWidget> {
   }
 
   loadData() async{
-    var stream = db.getItems(null);
+    FirebaseAuth auth = FirebaseAuth.instance;
+    String? uID = auth.currentUser?.uid.toString();
+    var stream = db.getItems(uID);
     stream.listen((List<Item> data) {
       setState(() {
         items = data;

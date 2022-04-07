@@ -29,3 +29,17 @@ class UserPerson {
     email = data['email'];
   }
 }
+
+class UserData{
+  String? id;
+  String? email;
+  String? name;
+
+  UserData({this.id,this.email,this.name});
+
+  UserData.fromJson(String id, Map<String, dynamic> data) {
+    id = id;
+    email = data['email'];
+    name = data['name'];
+  }
+}

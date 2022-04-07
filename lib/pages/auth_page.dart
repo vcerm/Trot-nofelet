@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nofelet/models/user.dart';
 import 'package:nofelet/pages/main_page.dart';
+import 'package:nofelet/pages/profile_page.dart';
 import 'package:nofelet/pages/registraion_page.dart';
 import 'package:nofelet/services/auth.dart';
 import 'package:validators/validators.dart';
@@ -41,6 +42,11 @@ class _AuthPageState extends State<AuthPage> {
     super.dispose();
   }
 
+  void _regButton(){
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => Register(onClickedAuth: (){})));
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +63,6 @@ class _AuthPageState extends State<AuthPage> {
     }
 
     Future<UserPerson?> _buttonEnter() async {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => Center(child: CircularProgressIndicator(),),
-      );
 
         try {
           UserCredential result = await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -84,13 +85,13 @@ class _AuthPageState extends State<AuthPage> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(top: 170, bottom: 10),
-            child: input("EMAIL", _emailController, false, false, 10, null,(email) => !isEmail(email)
+            child: input("EMAIL", _emailController, false, false, 1, null,(email) => !isEmail(email)
                 ? 'Введите корректный email'
                 : null),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: input("PASSWORD", _passwordController, true, false, 10, null, null),
+            child: input("PASSWORD", _passwordController, true, false, 1, null, null),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -105,7 +106,7 @@ class _AuthPageState extends State<AuthPage> {
             child: SizedBox(
               height: 40,
               width: 150,
-              child: button("Регистрация", widget.onClickedReg),
+              child: button("Регистрация", _regButton),
             ),
           ),
         ],

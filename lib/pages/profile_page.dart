@@ -8,6 +8,7 @@ import 'package:nofelet/pages/profile_edit_page.dart';
 import 'package:nofelet/widgets/Button_Widget.dart';
 import 'package:nofelet/widgets/User_Preferences.dart';
 import 'package:nofelet/widgets/list_items.dart';
+import 'package:provider/provider.dart';
 
 import '../models/item.dart';
 import '../services/database.dart';
@@ -26,7 +27,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   late final UserPerson user;
-  DatabaseService db = DatabaseService(uid: '');
+  DatabaseService db = DatabaseService();
   StreamSubscription<List<Item>>? itemsStreamSubscription;
   late List<Item> items;
 
@@ -56,6 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
       await FirebaseAuth.instance.signOut();
     }
 
+    user = Provider.of<UserPerson>(context);
 
     return Scaffold(
       backgroundColor: const Color(0xffebddd3),

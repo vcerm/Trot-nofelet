@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nofelet/models/item_other.dart';
 import 'package:nofelet/models/user.dart';
+import 'package:provider/provider.dart';
 import '../widgets/Item_Widget.dart';
 import 'main_page.dart';
 import '../widgets/Item_Widget.dart';
@@ -19,7 +20,7 @@ final item = ItemPreferences.item;
 class _ItemPageState extends State<ItemPage> {
   @override
   Widget build(BuildContext context) {
-
+    user = Provider.of<UserPerson>(context);
     return Scaffold(
       backgroundColor: const Color(0xffebddd3),
       appBar: AppBar(
