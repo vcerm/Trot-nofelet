@@ -187,7 +187,7 @@ class _RegisterState extends State<Register> {
               ),
               SizedBox(
                 height: 170,
-                child: UserItemsEdit(bottomButton: addButton(addButtonRoute),),
+                child: ItemList(),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),

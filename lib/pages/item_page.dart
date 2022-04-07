@@ -23,67 +23,70 @@ class ItemPage extends StatefulWidget {
 
 class _ItemPageState extends State<ItemPage> {
   UserPerson? user;
-  Item? item;
   var db = DatabaseService();
   @override
+
   void initState(){
-    _loadItem();
     super.initState();
   }
 
-  void _loadItem(){
-    db.getItemById(widget.id).then((w) {
-      setState(() {
-        item = w;
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     user = Provider.of<UserPerson>(context);
-    _loadItem();
-    String? desc = item?.description;
-    String? AuthName = item?.author;
-    return Scaffold(
-      backgroundColor: const Color(0xffebddd3),
-      appBar: AppBar(
-        title: const Text(
-          'Торты, капкейки на заказ',
-          style: TextStyle(
-            fontSize: 24.0,
-            color: Color(0xffebddd3),
+    print(widget.id);
+    return StreamBuilder<Item>(
+      stream: DatabaseService(uid: widget.id).getItemById,
+      builder: (context, snapshot) {
+        print(snapshot.data);
+        if(snapshot.hasData){
+          Item? item = snapshot.data;
+          String? desc = item?.description;
+          String? AuthName = item?.author;
+        return Scaffold(
+          backgroundColor: const Color(0xffebddd3),
+          appBar: AppBar(
+            title: const Text(
+              'Торты, капкейки на заказ',
+              style: TextStyle(
+                fontSize: 24.0,
+                color: Color(0xffebddd3),
+              ),
+            ),
+            centerTitle: true,
+            backgroundColor: const Color(0xff7d5538),
+            shadowColor: Colors.transparent,
+            leading: RawMaterialButton(
+              onPressed: (){
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => MainPage()));
+              },
+              child: const Icon(
+                Icons.arrow_back,
+                size: 30.0,
+                color: Color(0xffebddd3),
+              ),
+            ),
           ),
-        ),
-        centerTitle: true,
-        backgroundColor: const Color(0xff7d5538),
-        shadowColor: Colors.transparent,
-        leading: RawMaterialButton(
-          onPressed: (){
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => MainPage()));
-          },
-          child: const Icon(
-            Icons.arrow_back,
-            size: 30.0,
-            color: Color(0xffebddd3),
+          body:
+          Column(
+            children: [
+              ItemWidget(
+                ImagePath: 'assets/images/item_image.png',
+                Name: AuthName,
+                Email: user?.email,
+              ),
+              Container(
+               padding: EdgeInsets.symmetric(vertical: 9.0, horizontal: 16),
+                child: Text(desc!),
+              )
+            ],
           ),
-        ),
-      ),
-      body:
-      Column(
-        children: [
-          ItemWidget(
-            ImagePath: 'assets/images/item_image.png',
-            Name: AuthName,
-            Email: user?.email,
-          ),
-          Container(
-           padding: EdgeInsets.symmetric(vertical: 9.0, horizontal: 16),
-            child: Text(desc!),
-          )
-        ],
-      ),
+        );
+      }else{
+          return CircularProgressIndicator();
+        }
+      }
     );
 
   }

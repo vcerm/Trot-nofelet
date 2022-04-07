@@ -11,15 +11,17 @@ class DatabaseService{
   DatabaseService({this.uid});
 
   final CollectionReference _itemsCollection = FirebaseFirestore.instance.collection('items');
-  final CollectionReference _userItemsCollection = FirebaseFirestore.instance.collection('user_items');
   final CollectionReference _usersCollection = FirebaseFirestore.instance.collection('users_info');
 
-  Future updateUserData(String name, String email) async {
+  Future updateUserData(String? newName, String? newEmail) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     String? uID = auth.currentUser?.uid.toString();
+    print(_usersCollection.doc(uID));
+    print(newEmail);
+    print(newName);
     return await _usersCollection.doc(uID).set({
-      'name': name,
-      'email': email,
+      'name': newName,
+      'email': newEmail,
     });
   }
 
@@ -31,6 +33,11 @@ class DatabaseService{
       'Description' : item.description,
       'AuthorID' : item.authorId
     });
+  }
+
+  Future deleteItem(Item item) async{
+    DocumentReference itemRef = _itemsCollection.doc(item.id);
+    return itemRef.delete();
   }
 
   Stream<List<Item>> getItems(String? author){
@@ -46,16 +53,18 @@ class DatabaseService{
       }).toList());
   }
 
-  Future<Item> getItemById(String? id) async{
-        var doc = await _itemsCollection.doc(id).get();
-    return Item.fromJson(doc.id, doc.data() as Map<String, dynamic>);
+  Stream<Item> get getItemById{
+    print(_itemsCollection.doc(uid));
+    return _itemsCollection.doc(uid).snapshots().map((DocumentSnapshot doc) => Item.fromJson(doc.id, doc.data() as Map<String, dynamic>));
   }
 
   Stream<UserData> get userData{
     FirebaseAuth auth = FirebaseAuth.instance;
     String? uID = auth.currentUser?.uid.toString();
-    return _usersCollection.doc(uID).snapshots().map((DocumentSnapshot doc) => UserData.fromJson(doc.id, doc.data as  Map<String, dynamic>));
+    return _usersCollection.doc(uID).snapshots().map((DocumentSnapshot doc) => UserData.fromJson(doc.id, doc.data() as  Map<String, dynamic>));
   }
+
+
 
 
 }

@@ -58,18 +58,6 @@ class _MainPageState extends State<MainPage> {
         actions: [
           RawMaterialButton(
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => AddItem())
-              );
-            },
-            child: const Icon(
-              Icons.fullscreen_exit,
-              size: 30.0,
-              color: Color(0xffebddd3),
-            ),
-          ),
-          RawMaterialButton(
-            onPressed: () {
               AuthService().logOut();
             },
             child: const Icon(

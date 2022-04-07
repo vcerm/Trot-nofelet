@@ -30,7 +30,6 @@ class _ProfilePageState extends State<ProfilePage> {
   late UserPerson user;
   DatabaseService db = DatabaseService();
   StreamSubscription<List<Item>>? itemsStreamSubscription;
-  late List<Item> items;
 
 
   @override
@@ -42,100 +41,85 @@ class _ProfilePageState extends State<ProfilePage> {
     super.dispose();
   }
 
-  Future<void> loadData() async{
-    var stream = db.getItems(user.id);
-
-    itemsStreamSubscription = stream.listen((List<Item> data) {
-      setState(() {
-        items = data;
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
 
     user = Provider.of<UserPerson>(context);
 
-    Future _buttonExit() async {
-      await FirebaseAuth.instance.signOut();
-      navigatorKey.currentState!.popUntil((route) => route.isFirst);
-    }
 
-
-
-
-
-    return Scaffold(
-      backgroundColor: const Color(0xffebddd3),
-      appBar: AppBar(
-        title: const Text(
-          'Профиль',
-          style: TextStyle(
-            fontSize: 24.0,
-            color: Color(0xffebddd3),
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: const Color(0xff7d5538),
-        shadowColor: Colors.transparent,
-        leading: RawMaterialButton(
-          onPressed: (){
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => MainPage()));
-          },
-          child: const Icon(
-            Icons.house_rounded,
-            size: 30.0,
-            color: Color(0xffebddd3),
-          ),
-        ),
-
-        actions: [
-          RawMaterialButton(
+    return StreamBuilder<UserData>(
+      stream: DatabaseService().userData,
+      builder: (context, snapshot) {
+        if(snapshot.hasData){
+          UserData? userData = snapshot.data;
+        return Scaffold(
+          backgroundColor: const Color(0xffebddd3),
+          appBar: AppBar(
+            title: const Text(
+              'Профиль',
+              style: TextStyle(
+                fontSize: 24.0,
+                color: Color(0xffebddd3),
+              ),
+            ),
+            centerTitle: true,
+            backgroundColor: const Color(0xff7d5538),
+            shadowColor: Colors.transparent,
+            leading: RawMaterialButton(
               onPressed: (){
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => ProfileEdit()));
+                    context, MaterialPageRoute(builder: (context) => MainPage()));
               },
               child: const Icon(
-                Icons.edit,
+                Icons.house_rounded,
                 size: 30.0,
                 color: Color(0xffebddd3),
               ),
+            ),
+
+            actions: [
+              RawMaterialButton(
+                  onPressed: (){
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => ProfileEdit()));
+                  },
+                  child: const Icon(
+                    Icons.edit,
+                    size: 30.0,
+                    color: Color(0xffebddd3),
+                  ),
+              ),
+            ],
           ),
-        ],
-      ),
-      body:
-        SingleChildScrollView(
-          child: Column(
-                children: [
-                  ProfileWidget(
-                    ImagePath: 'assets/images/User_image.jpg',
-                    Name: 'Потный Вилли',
-                    Email: user.email!,
-                  ),
-                  const Divider(
-                    color: Colors.black,
-                    height: 20,
-                    thickness: 2,
-                    indent: 10,
-                    endIndent: 10,
-                  ),
-                  Container(
-                    height: 400,
-                    child: UserItemsWidget(bottomButton: Container(),),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 30.0),
-                    child: SizedBox(
-                      height: 40,
-                      width: 150,
-                      child: button("Выйти", _buttonExit),
-                    ),
-                  ),
-                ],
-          ),
-        ),
+          body:
+            SingleChildScrollView(
+              child: Column(
+                    children: [
+                      ProfileWidget(
+                        ImagePath: 'assets/images/User_image.jpg',
+                        Name: userData!.name!,
+                        Email: userData.email!,
+                      ),
+                      const Divider(
+                        color: Colors.black,
+                        height: 20,
+                        thickness: 2,
+                        indent: 10,
+                        endIndent: 10,
+                      ),
+                      Container(
+                        height: 400,
+                        child: UserItemsWidget(bottomButton: Container(), AuthorId: user.id,),
+                      ),
+                    ],
+              ),
+            ),
+        );
+      }else{
+          return CircularProgressIndicator();
+        }
+      }
     );
 
   }

@@ -33,9 +33,9 @@ class _AddItemState extends State<AddItem> {
   }
 
 
-  void _saveButton() async {
+   _saveButton(String? name) async {
 
-    itemEdit.author = userData?.name;
+    itemEdit.author = name;
     itemEdit.authorId = user.id;
     itemEdit.description = _description.text.trim();
 
@@ -48,55 +48,65 @@ class _AddItemState extends State<AddItem> {
   Widget build(BuildContext context) {
     user = Provider.of<UserPerson>(context);
 
-        return Scaffold(
-          backgroundColor: const Color(0xffebddd3),
-          appBar: AppBar(
-            title: const Text(
-              'Добавление',
-              style: TextStyle(
-                fontSize: 24.0,
-                color: Color(0xffebddd3),
-              ),
-            ),
-            centerTitle: true,
-            backgroundColor: const Color(0xff7d5538),
-            shadowColor: Colors.transparent,
-            leading: RawMaterialButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(
-                Icons.arrow_back_rounded,
-                size: 30.0,
-                color: Color(0xffebddd3),
-              ),
-            ),
-          ),
-          body: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 25.0),
-                  child: addImage(),
+        return StreamBuilder<UserData>(
+          stream: DatabaseService(uid: null).userData,
+          builder: (context, snapshot) {
+            if(snapshot.hasData){
+              UserData? userData = snapshot.data;
+            return Scaffold(
+              backgroundColor: const Color(0xffebddd3),
+              appBar: AppBar(
+                title: const Text(
+                  'Добавление',
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    color: Color(0xffebddd3),
+                  ),
                 ),
-
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 30.0),
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        return SizedBox(
-                          height: constraints.maxHeight / 9,
-                          child: input('Описание', _description, false, true, null, null, null)
-                        );
-                      }),
+                centerTitle: true,
+                backgroundColor: const Color(0xff7d5538),
+                shadowColor: Colors.transparent,
+                leading: RawMaterialButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_rounded,
+                    size: 30.0,
+                    color: Color(0xffebddd3),
+                  ),
+                ),
+              ),
+              body: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 25.0),
+                      child: addImage(),
                     ),
+
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 30.0),
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            return SizedBox(
+                              height: constraints.maxHeight / 9,
+                              child: input('Описание', _description, false, true, null, null, null)
+                            );
+                          }),
+                        ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20.0),
+                      child: addButton((){_saveButton(userData!.name);}),
+                    )
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: addButton(_saveButton),
-                )
-              ],
-            ),
+            );
+          }else{
+              return CircularProgressIndicator();
+            }
+          }
         );
       }
   }

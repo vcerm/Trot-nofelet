@@ -24,8 +24,8 @@ class UserPerson {
   }
 
 
-  UserPerson.fromJson(String id, Map<String, dynamic> data) {
-    id = id;
+  UserPerson.fromJson(String uid, Map<String, dynamic> data) {
+    id = uid;
     email = data['email'];
   }
 }
@@ -37,8 +37,8 @@ class UserData{
 
   UserData({this.id,this.email,this.name});
 
-  UserData.fromJson(String id, Map<String, dynamic> data) {
-    id = id;
+  UserData.fromJson(String uid, Map<String, dynamic> data) {
+    id = uid;
     email = data['email'];
     name = data['name'];
   }

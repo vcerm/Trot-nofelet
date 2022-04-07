@@ -7,6 +7,7 @@ import 'package:nofelet/pages/add_page.dart';
 import 'package:nofelet/pages/profile_page.dart';
 import 'package:nofelet/widgets/UserItemsEditWidget.dart';
 import 'package:nofelet/widgets/edit_profile_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../models/item.dart';
 import '../services/database.dart';
@@ -16,19 +17,23 @@ import '../widgets/User_Items_Widget.dart';
 import '../widgets/User_Preferences.dart';
 
 class ProfileEdit extends StatefulWidget {
-  const ProfileEdit({Key? key}) : super(key: key);
+  ProfileEdit({Key? key}) : super(key: key);
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
 
   @override
   _ProfileEditState createState() => _ProfileEditState();
 }
 
-late UserPerson user;
+
 
 class _ProfileEditState extends State<ProfileEdit> {
 
+
+  late UserPerson user;
   DatabaseService db = DatabaseService();
   StreamSubscription<List<Item>>? itemsStreamSubscription;
-  late List<Item> items;
 
   @override
   void dispose() {
@@ -39,109 +44,158 @@ class _ProfileEditState extends State<ProfileEdit> {
     super.dispose();
   }
 
-  Future<void> loadData() async{
-    var stream = db.getItems(null);
-
-    itemsStreamSubscription = stream.listen((List<Item> data) {
-      setState(() {
-        items = data;
-      });
-    });
+  _buttonSave(String? name, String? email)async{
+    await DatabaseService().updateUserData(name, email);
+    Navigator.pop(context);
   }
+
+  
   @override
   Widget build(BuildContext context) {
 
-    void _buttonSave(){
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ProfilePage()));
-    }
+    user = Provider.of<UserPerson>(context);
 
-    void _buttonAdd(){
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => AddItem()));
-    }
 
-    Widget _Addbutton() => button('Добавить', _buttonAdd);
-
-    return Scaffold(
-      backgroundColor: const Color(0xffebddd3),
-      appBar: AppBar(
-        title: const Text(
-        'Профиль',
-        style: TextStyle(
-          fontSize: 24.0,
-          color: Color(0xffebddd3),
-        ),
-      ),
-        centerTitle: true,
-        backgroundColor: const Color(0xff7d5538),
-        shadowColor: Colors.transparent,
-        leading: BackButton(color: Color(0xffebddd3)),
-        ),
-      body: Column(
-        children: [
-          Row(
+    return StreamBuilder<UserData>(
+      stream: DatabaseService().userData,
+      builder: (context, snapshot) {
+        if(snapshot.hasData){
+          UserData? userData = snapshot.data;
+          widget.nameController.text = userData!.name!;
+          widget.emailController.text = userData.email!;
+        return Scaffold(
+          backgroundColor: const Color(0xffebddd3),
+          appBar: AppBar(
+            title: const Text(
+            'Профиль',
+            style: TextStyle(
+              fontSize: 24.0,
+              color: Color(0xffebddd3),
+            ),
+          ),
+            centerTitle: true,
+            backgroundColor: const Color(0xff7d5538),
+            shadowColor: Colors.transparent,
+            leading: BackButton(color: Color(0xffebddd3)),
+            ),
+          body: Column(
             children: [
-              EditProfile(
-                imagePath: 'assets/images/User_image.jpg',
-                onClicked: () async {},
+              Row(
+                children: [
+                  EditProfile(
+                    imagePath: 'assets/images/User_image.jpg',
+                    onClicked: () async {},
+                  ),
+                  const VerticalDivider(width: 15, thickness: 0,),
+                  SizedBox(
+                    height: 200,
+                    width: 200,
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 10,),
+                        Expanded(
+                          child: TextField(
+                            maxLines: 1,
+                            controller: widget.nameController,
+                            decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.all(10.0),
+                              hintStyle: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 16,
+                                color: Color(0xffb38f77),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Color(0xffb38f77), width: 2),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Color(0xffb38f77), width: 3),
+                              ),
+                            ),
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Color(0xff7d5538),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: TextField(
+                            maxLines: 1,
+                            controller: widget.emailController,
+                            decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.all(10.0),
+                              hintStyle: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 16,
+                                color: Color(0xffb38f77),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Color(0xffb38f77), width: 2),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Color(0xffb38f77), width: 3),
+                              ),
+                            ),
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Color(0xff7d5538),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
-              const VerticalDivider(width: 15, thickness: 0,),
-              SizedBox(
-                height: 200,
-                width: 200,
-                child: Column(
-                  children: [
-                    const SizedBox(height: 10,),
-                    Expanded(
-                      child: TextFieldWidget(
-                        minLines: 1,
-                        label: 'Имя',
-                        text: 'Потный Вилли',
-                        onChanged: (name) {},
-                      ),
-                    ),
-                    Expanded(
-                      child: TextFieldWidget(
-                        minLines: 1,
-                        label: 'Email',
-                        text: user.email!,
-                        onChanged: (email) {},
-                      ),
-                    ),
-                  ],
+              const Divider(
+                color: Colors.black,
+                height: 20,
+                thickness: 2,
+                indent: 10,
+                endIndent: 10,
+              ),
+              Flexible(
+                fit: FlexFit.loose,
+                flex: 5,
+                child: SizedBox(
+                  height: 450,
+                  child: UserItemsEdit(AuthorId: user.id),
                 ),
-              )
+              ),
+              Flexible(
+                fit: FlexFit.loose,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: SizedBox(
+                    height: 50,
+                    width: 150,
+                    child: MaterialButton(
+                      padding: const EdgeInsets.all(0.0),
+                      splashColor: const Color(0xffebddd3),
+                      highlightColor: const Color(0xffebddd3),
+                      color: const Color(0xffdb9562),
+                      child: Text(
+                        'Сохранить',
+                        style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                            letterSpacing: 2.0,
+                            color: Color(0xffebddd3)
+                        ),
+                      ),
+                      onPressed: (){
+                        _buttonSave(widget.nameController.text.trim(), widget.emailController.text.trim());
+                      },
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
-          const Divider(
-            color: Colors.black,
-            height: 20,
-            thickness: 2,
-            indent: 10,
-            endIndent: 10,
-          ),
-          Flexible(
-            fit: FlexFit.loose,
-            flex: 5,
-            child: SizedBox(
-              height: 450,
-              child: UserItemsEdit(bottomButton: _Addbutton()),
-            ),
-          ),
-          Flexible(
-            fit: FlexFit.loose,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: SizedBox(
-                height: 50,
-                width: 150,
-                child: button("Сохранить", _buttonSave),
-              ),
-            ),
-          ),
-        ],
-      ),
+        );
+      }else{
+          return CircularProgressIndicator();
+        }
+      }
     );
   }
 }

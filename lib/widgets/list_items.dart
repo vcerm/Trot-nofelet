@@ -37,7 +37,7 @@ class _ItemListState extends State<ItemList> {
       return StreamBuilder<List<Item>>(
         stream: DatabaseService().getItems(null),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {;
+          if (snapshot.hasData) {
             List<Item>? items = snapshot.data;
             return ListView.builder(
               itemCount: items?.length,
