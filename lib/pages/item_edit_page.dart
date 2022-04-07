@@ -35,11 +35,11 @@ class _ItemEditPageState extends State<ItemEditPage> {
 
   UserPerson? user;
   Item? item;
-  Item itemEdit = Item();
+  Item? itemEdit = Item();
   var db = DatabaseService();
 
   void _loadItem(){
-    db.getItemById(widget.id).then((w) {
+    db.getItemById().then((w) {
       setState(() {
         item = w;
       });
@@ -64,8 +64,8 @@ class _ItemEditPageState extends State<ItemEditPage> {
   Widget build(BuildContext context) {
     user = Provider.of<UserPerson>(context);
     void _buttonSave(){
-      itemEdit.description = controller.text.trim();
-      db.addOrUpdateItem(itemEdit);
+      itemEdit?.description = controller.text.trim();
+      db.addOrUpdateItem(itemEdit!);
     }
 
     return Scaffold(

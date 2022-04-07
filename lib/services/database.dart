@@ -44,7 +44,8 @@ class DatabaseService{
       data.docs.map((DocumentSnapshot doc) => Item.fromJson(doc.id, doc.data() as Map<String, dynamic>)).toList());
   }
 
-  Future<Item> getItemById(String? id) async{
+  Future<Item> getItemById() async{
+    String id = "OANHDIG83rbo3eA1I8Dp";
     var doc = await _itemsCollection.doc(id).get();
     return Item.fromJson(doc.id, doc.data as Map<String, dynamic>);
   }
@@ -54,5 +55,6 @@ class DatabaseService{
     String? uID = auth.currentUser?.uid.toString();
     return _usersCollection.doc(uID).snapshots().map((DocumentSnapshot doc) => UserData.fromJson(doc.id, doc.data as  Map<String, dynamic>));
   }
+
 
 }

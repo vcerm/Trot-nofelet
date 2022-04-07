@@ -23,7 +23,7 @@ class ItemPage extends StatefulWidget {
 
 class _ItemPageState extends State<ItemPage> {
   UserPerson? user;
-  Item? item;
+  late Item item;
   var db = DatabaseService();
   @override
   void initState(){
@@ -32,7 +32,7 @@ class _ItemPageState extends State<ItemPage> {
   }
 
   void _loadItem(){
-    db.getItemById(widget.id).then((w) {
+    db.getItemById().then((w) {
       setState(() {
         item = w;
       });
@@ -42,7 +42,8 @@ class _ItemPageState extends State<ItemPage> {
   @override
   Widget build(BuildContext context) {
     user = Provider.of<UserPerson>(context);
-    String? desc = item?.description;
+    _loadItem();
+    String? desc = item.description;
     return Scaffold(
       backgroundColor: const Color(0xffebddd3),
       appBar: AppBar(
@@ -78,7 +79,7 @@ class _ItemPageState extends State<ItemPage> {
           ),
           Container(
            padding: EdgeInsets.symmetric(vertical: 9.0, horizontal: 16),
-            child: Text(desc!)
+            child: Text(desc!),
           )
         ],
       ),
