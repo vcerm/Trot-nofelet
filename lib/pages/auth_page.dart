@@ -119,6 +119,7 @@ class _AuthPageState extends State<AuthPage> {
     return Scaffold(
       backgroundColor: const Color(0xffebddd3),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text(
           'Трот-нофелет',
           style: TextStyle(

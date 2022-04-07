@@ -15,9 +15,10 @@ class ProfileWidget extends StatelessWidget {
             padding: const EdgeInsets.only(left: 15, top: 15),
             child: buildImage(),
             ),
-          Container(
+          Padding(
             padding: const EdgeInsets.only(left: 30.0, top: 20),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   Name,

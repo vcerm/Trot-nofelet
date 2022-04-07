@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import '../models/item.dart';
 import '../pages/add_page.dart';
+import '../pages/item_page.dart';
 import '../services/database.dart';
 
 class UserItemsEdit extends StatefulWidget {
 
   // final List<Item> items;
   final String? AuthorId;
-
-  const UserItemsEdit({Key? key, required this.AuthorId}) : super(key: key);
+  final String? authorName;
+  const UserItemsEdit({Key? key, required this.AuthorId, required this.authorName}) : super(key: key);
 
   @override
   State<UserItemsEdit> createState() => _UserItemsEditState();
@@ -48,9 +49,9 @@ class _UserItemsEditState extends State<UserItemsEdit> {
                     splashColor: const Color(0xffebddd3),
                     highlightColor: const Color(0xffebddd3),
                     color: const Color(0xffdb9562),
-                    child: Text(
+                    child: const Text(
                       'Добавить',
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.normal,
                           letterSpacing: 2.0,
@@ -63,56 +64,65 @@ class _UserItemsEditState extends State<UserItemsEdit> {
                     }),
               );
             }
-            return Card(
-              elevation: 2,
-              margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
-              child: Container(
-                decoration: const BoxDecoration(color: Color(0xffecd9cc),),
-                child: ListTile(
-                  leading: Image.asset(
-                    'assets/images/item_image.png',
-                    fit: BoxFit.fill,
-                  ),
-                  contentPadding: const EdgeInsets.all(6.0),
-                  title: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Text(
-                      items[i].description.toString(),
-                      style: const TextStyle(
-                        fontSize: 13,
-                      ),
+            return InkWell(
+              child: Card(
+                elevation: 2,
+                margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
+                child: Container(
+                  decoration: const BoxDecoration(color: Color(0xffecd9cc),),
+                  child: ListTile(
+                    leading: Image.asset(
+                      'assets/images/item_image.png',
+                      fit: BoxFit.fill,
                     ),
-                  ),
-                  subtitle: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        items[i].author.toString(),
+                    contentPadding: const EdgeInsets.all(6.0),
+                    title: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Text(
+                        items[i].description.toString(),
                         style: const TextStyle(
-                          letterSpacing: 3.0,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 13,
                         ),
                       ),
-                    RawMaterialButton(
-                      onPressed: () {
-                        db.deleteItem(items[i]);
-                      },
-                      child: const Icon(
-                        Icons.delete,
-                        size: 30.0,
-                        color: Colors.black,
-                      ),
                     ),
-                    ],
+                    subtitle: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          widget.authorName!,
+                          style: const TextStyle(
+                            letterSpacing: 3.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      RawMaterialButton(
+                        onPressed: () {
+                          db.deleteItem(items[i]);
+                        },
+                        child: const Icon(
+                          Icons.delete_outline,
+                          size: 30.0,
+                          color: Color(0xff7d5538),
+                        ),
+                      ),
+                      ],
+                    ),
                   ),
                 ),
               ),
+              onTap: (){
+                Navigator.push(
+                    context, MaterialPageRoute(
+                    builder: (context) =>
+                        ItemPage(id: items[i].id))
+                );
+              },
             );
           },
         );
       }else{
-          return CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
       }
     );

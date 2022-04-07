@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nofelet/pages/item_edit_page.dart';
 import 'dart:async';
 import '../models/item.dart';
+import '../pages/item_page.dart';
 import '../services/database.dart';
 
 class UserItemsWidget extends StatefulWidget {
@@ -46,58 +47,67 @@ class _UserItemsWidgetState extends State<UserItemsWidget> {
                 child: widget.bottomButton,
               );
             }
-            return Card(
-              elevation: 2,
-              margin: const EdgeInsets.symmetric(vertical: 9.0, horizontal: 16),
-              child: Container(
-                decoration: const BoxDecoration(color: Color(0xffecd9cc),),
-                child: ListTile(
-                  leading: Image.asset(
-                    'assets/images/item_image.png',
-                    fit: BoxFit.fill,
-                  ),
-                  contentPadding: const EdgeInsets.all(6.0),
-                  title: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Text(
-                      items[i].description.toString(),
-                      style: const TextStyle(
-                        fontSize: 13,
+            return InkWell(
+              child: Card(
+                elevation: 2,
+                margin: const EdgeInsets.symmetric(vertical: 9.0, horizontal: 16),
+                child: Container(
+                  decoration: const BoxDecoration(color: Color(0xffecd9cc),),
+                  child: ListTile(
+                    leading: Image.asset(
+                      'assets/images/item_image.png',
+                      fit: BoxFit.fill,
+                    ),
+                    contentPadding: const EdgeInsets.all(6.0),
+                    title: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Text(
+                        items[i].description.toString(),
+                        style: const TextStyle(
+                          fontSize: 13,
+                        ),
                       ),
                     ),
-                  ),
-                  subtitle: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        items[i].author.toString(),
-                        style: const TextStyle(
-                          letterSpacing: 3.0,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
+                    subtitle: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          items[i].author.toString(),
+                          style: const TextStyle(
+                            letterSpacing: 3.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                      RawMaterialButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => ItemEditPage(id: items[i].id,))
-                          );
-                        },
-                        child: const Icon(
-                          Icons.edit,
-                          size: 30.0,
-                          color: Colors.black,
+                        RawMaterialButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context, MaterialPageRoute(builder: (context) => ItemEditPage(id: items[i].id,))
+                            );
+                          },
+                          child: const Icon(
+                            Icons.edit,
+                            size: 30.0,
+                            color: Color(0xff7d5538),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
+              onTap: (){
+                Navigator.push(
+                    context, MaterialPageRoute(
+                    builder: (context) =>
+                        ItemPage(id: items[i].id))
+                );
+              },
             );
           },
         );
       }else{
-          return CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
       }
     );

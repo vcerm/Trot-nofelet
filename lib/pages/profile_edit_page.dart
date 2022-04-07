@@ -1,26 +1,17 @@
 import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:nofelet/models/user.dart';
-import 'package:nofelet/pages/add_page.dart';
-import 'package:nofelet/pages/profile_page.dart';
 import 'package:nofelet/widgets/UserItemsEditWidget.dart';
 import 'package:nofelet/widgets/edit_profile_widget.dart';
 import 'package:provider/provider.dart';
-
 import '../models/item.dart';
 import '../services/database.dart';
-import '../widgets/Button_Widget.dart';
-import '../widgets/Text_Field_Widget.dart';
-import '../widgets/User_Items_Widget.dart';
-import '../widgets/User_Preferences.dart';
 
 class ProfileEdit extends StatefulWidget {
   ProfileEdit({Key? key}) : super(key: key);
 
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
 
   @override
   _ProfileEditState createState() => _ProfileEditState();
@@ -38,7 +29,7 @@ class _ProfileEditState extends State<ProfileEdit> {
   @override
   void dispose() {
     if(itemsStreamSubscription != null){
-      print('Unsubscribing');
+      log('Unsubscribing');
       itemsStreamSubscription?.cancel();
     }
     super.dispose();
@@ -62,7 +53,6 @@ class _ProfileEditState extends State<ProfileEdit> {
         if(snapshot.hasData){
           UserData? userData = snapshot.data;
           widget.nameController.text = userData!.name!;
-          widget.emailController.text = userData.email!;
         return Scaffold(
           backgroundColor: const Color(0xffebddd3),
           appBar: AppBar(
@@ -76,7 +66,16 @@ class _ProfileEditState extends State<ProfileEdit> {
             centerTitle: true,
             backgroundColor: const Color(0xff7d5538),
             shadowColor: Colors.transparent,
-            leading: BackButton(color: Color(0xffebddd3)),
+            leading: RawMaterialButton(
+              onPressed: (){
+                Navigator.pop(context);
+              },
+              child: const Icon(
+                Icons.arrow_back_rounded,
+                size: 30.0,
+                color: Color(0xffebddd3),
+              ),
+            ),
             ),
           body: Column(
             children: [
@@ -98,6 +97,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                             padding: const EdgeInsets.only(bottom: 10.0),
                             child: TextField(
                               maxLines: 1,
+                              textAlign: TextAlign.center,
                               controller: widget.nameController,
                               decoration: const InputDecoration(
                                 contentPadding: EdgeInsets.all(10.0),
@@ -143,7 +143,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                 flex: 5,
                 child: SizedBox(
                   height: 450,
-                  child: UserItemsEdit(AuthorId: user.id),
+                  child: UserItemsEdit(AuthorId: user.id, authorName: userData.name),
                 ),
               ),
               Flexible(
@@ -178,7 +178,7 @@ class _ProfileEditState extends State<ProfileEdit> {
           ),
         );
       }else{
-          return CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
       }
     );

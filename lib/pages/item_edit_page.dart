@@ -1,21 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nofelet/models/item_other.dart';
 import 'package:nofelet/models/user.dart';
-import 'package:nofelet/pages/profile_page.dart';
-import 'package:nofelet/widgets/User_Preferences.dart';
-import 'package:nofelet/widgets/list_items.dart';
 import 'package:provider/provider.dart';
-
 import '../services/database.dart';
-import '../widgets/Button_Widget.dart';
-import '../widgets/Profile_Widget.dart';
-import '../widgets/Text_Field_Widget.dart';
-import '../widgets/User_Items_Widget.dart';
 import '../models/item.dart';
 import '../widgets/Item_Widget.dart';
-import 'main_page.dart';
-import '../widgets/Item_Widget.dart';
-import '../widgets/Item_Preferences.dart';
 
 class ItemEditPage extends StatefulWidget {
 
@@ -81,11 +69,10 @@ class _ItemEditPageState extends State<ItemEditPage> {
             shadowColor: Colors.transparent,
             leading: RawMaterialButton(
               onPressed: (){
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => MainPage()));
+                Navigator.pop(context);
               },
               child: const Icon(
-                Icons.arrow_back,
+                Icons.arrow_back_rounded,
                 size: 30.0,
                 color: Color(0xffebddd3),
               ),
@@ -138,9 +125,9 @@ class _ItemEditPageState extends State<ItemEditPage> {
                           splashColor: const Color(0xffebddd3),
                           highlightColor: const Color(0xffebddd3),
                           color: const Color(0xffdb9562),
-                          child: Text(
+                          child: const Text(
                             'Сохранить',
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.normal,
                                 letterSpacing: 2.0,

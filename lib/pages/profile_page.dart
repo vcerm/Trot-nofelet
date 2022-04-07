@@ -1,16 +1,9 @@
 import 'dart:async';
-
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:nofelet/models/user.dart';
-import 'package:nofelet/pages/auth_page.dart';
 import 'package:nofelet/pages/profile_edit_page.dart';
-import 'package:nofelet/widgets/Button_Widget.dart';
-import 'package:nofelet/widgets/User_Preferences.dart';
-import 'package:nofelet/widgets/list_items.dart';
 import 'package:provider/provider.dart';
-
-import '../main.dart';
 import '../models/item.dart';
 import '../services/database.dart';
 import '../widgets/Profile_Widget.dart';
@@ -35,7 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void dispose() {
     if(itemsStreamSubscription != null){
-      print('Unsubscribing');
+      log('Unsubscribing');
       itemsStreamSubscription?.cancel();
     }
     super.dispose();
@@ -108,7 +101,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         indent: 10,
                         endIndent: 10,
                       ),
-                      Container(
+                      SizedBox(
                         height: 400,
                         child: UserItemsWidget(bottomButton: Container(), AuthorId: user!.id,),
                       ),
@@ -117,7 +110,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
         );
       }else{
-          return CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
       }
     );

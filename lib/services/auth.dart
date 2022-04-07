@@ -27,9 +27,9 @@ class AuthService{
     }
   }
 
-  void logOut() {
+  Future logOut() async {
     try{
-    _fAuth.signOut();
+      await _fAuth.signOut();
     } catch(e){
       print(e.toString());
       return null;

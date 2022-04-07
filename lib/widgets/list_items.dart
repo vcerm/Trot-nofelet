@@ -42,7 +42,7 @@ class _ItemListState extends State<ItemList> {
             return ListView.builder(
               itemCount: items?.length,
               itemBuilder: (context, i) {
-                return Container(
+                return InkWell(
                   child: Card(
                     key: Key(items![i].id.toString()),
                     elevation: 2.0,
@@ -77,25 +77,32 @@ class _ItemListState extends State<ItemList> {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            RawMaterialButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context, MaterialPageRoute(
-                                    builder: (context) =>
-                                        ItemPage(id: items[i].id))
-                                );
-                              },
-                              child: const Icon(
-                                Icons.arrow_forward_ios,
-                                size: 30.0,
-                                color: Colors.black,
-                              ),
-                            ),
+                            // RawMaterialButton(
+                            //   onPressed: () {
+                            //     Navigator.push(
+                            //         context, MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             ItemPage(id: items[i].id))
+                            //     );
+                            //   },
+                            //   child: const Icon(
+                            //     Icons.arrow_forward_ios_rounded,
+                            //     size: 30.0,
+                            //     color: Color(0xff7d5538),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
                     ),
                   ),
+                  onTap: (){
+                    Navigator.push(
+                        context, MaterialPageRoute(
+                        builder: (context) =>
+                        ItemPage(id: items[i].id))
+                    );
+                  },
                 );
               },
             );

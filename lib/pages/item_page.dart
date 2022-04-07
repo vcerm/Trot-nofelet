@@ -58,11 +58,10 @@ class _ItemPageState extends State<ItemPage> {
             shadowColor: Colors.transparent,
             leading: RawMaterialButton(
               onPressed: (){
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => MainPage()));
+                Navigator.pop(context);
               },
               child: const Icon(
-                Icons.arrow_back,
+                Icons.arrow_back_rounded,
                 size: 30.0,
                 color: Color(0xffebddd3),
               ),
