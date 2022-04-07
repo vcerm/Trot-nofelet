@@ -69,6 +69,9 @@ class _AuthPageState extends State<AuthPage> {
             email: _emailController.text.trim(),
             password: _passwordController.text.trim(),);
           User user = result.user!;
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainPage())
+          );
           return UserPerson.fromFirebase(user);
         } on FirebaseAuthException catch (e) {
           print(e);

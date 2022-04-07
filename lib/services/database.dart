@@ -31,7 +31,8 @@ class DatabaseService{
     return itemRef.set({
       'Author' : item.author,
       'Description' : item.description,
-      'AuthorID' : item.authorId
+      'AuthorID' : item.authorId,
+      'UserEmail' : item.userEmail,
     });
   }
 

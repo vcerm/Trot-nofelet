@@ -27,7 +27,7 @@ class ProfilePage extends StatefulWidget {
 
 
 class _ProfilePageState extends State<ProfilePage> {
-  late UserPerson user;
+  UserPerson? user;
   DatabaseService db = DatabaseService();
   StreamSubscription<List<Item>>? itemsStreamSubscription;
 
@@ -45,7 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
 
-    user = Provider.of<UserPerson>(context);
+    user = Provider.of<UserPerson?>(context);
 
 
     return StreamBuilder<UserData>(
@@ -110,7 +110,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       Container(
                         height: 400,
-                        child: UserItemsWidget(bottomButton: Container(), AuthorId: user.id,),
+                        child: UserItemsWidget(bottomButton: Container(), AuthorId: user!.id,),
                       ),
                     ],
               ),

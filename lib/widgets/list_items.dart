@@ -100,7 +100,7 @@ class _ItemListState extends State<ItemList> {
               },
             );
           }else{
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
         }
       );

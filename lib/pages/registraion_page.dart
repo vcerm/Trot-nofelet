@@ -163,7 +163,10 @@ class _RegisterState extends State<Register> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: input('Имя', _nameController, false, false, 1, null, null),
+                child: input('Имя', _nameController, false, false, 1, null, (value) =>
+                value != null && value.length < 3
+                    ? 'Слишком короткое имя'
+                    : null),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -184,10 +187,6 @@ class _RegisterState extends State<Register> {
                 value.isEmpty || (value != null && value != _passwordController.text)
                     ? 'Пароли отличаются'
                     : null),
-              ),
-              SizedBox(
-                height: 170,
-                child: ItemList(),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),

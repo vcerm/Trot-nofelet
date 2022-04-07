@@ -89,59 +89,44 @@ class _ProfileEditState extends State<ProfileEdit> {
                   const VerticalDivider(width: 15, thickness: 0,),
                   SizedBox(
                     height: 200,
-                    width: 200,
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 10,),
-                        Expanded(
-                          child: TextField(
-                            maxLines: 1,
-                            controller: widget.nameController,
-                            decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.all(10.0),
-                              hintStyle: TextStyle(
-                                fontWeight: FontWeight.normal,
+                    width: 220,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 10.0),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10.0),
+                            child: TextField(
+                              maxLines: 1,
+                              controller: widget.nameController,
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.all(10.0),
+                                hintStyle: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16,
+                                  color: Color(0xffb38f77),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Color(0xffb38f77), width: 2),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Color(0xffb38f77), width: 3),
+                                ),
+                              ),
+                              style: const TextStyle(
                                 fontSize: 16,
-                                color: Color(0xffb38f77),
+                                color: Color(0xff7d5538),
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xffb38f77), width: 2),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xffb38f77), width: 3),
-                              ),
-                            ),
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Color(0xff7d5538),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: TextField(
-                            maxLines: 1,
-                            controller: widget.emailController,
-                            decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.all(10.0),
-                              hintStyle: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                color: Color(0xffb38f77),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xffb38f77), width: 2),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xffb38f77), width: 3),
-                              ),
-                            ),
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Color(0xff7d5538),
+                          Expanded(
+                            child: Text(
+                              userData.email!,
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Color(0xff7d5538),),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   )
                 ],
@@ -164,18 +149,18 @@ class _ProfileEditState extends State<ProfileEdit> {
               Flexible(
                 fit: FlexFit.loose,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
                   child: SizedBox(
-                    height: 50,
+                    height: 40,
                     width: 150,
                     child: MaterialButton(
                       padding: const EdgeInsets.all(0.0),
                       splashColor: const Color(0xffebddd3),
                       highlightColor: const Color(0xffebddd3),
                       color: const Color(0xffdb9562),
-                      child: Text(
+                      child: const Text(
                         'Сохранить',
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.normal,
                             letterSpacing: 2.0,
@@ -183,7 +168,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                         ),
                       ),
                       onPressed: (){
-                        _buttonSave(widget.nameController.text.trim(), widget.emailController.text.trim());
+                        _buttonSave(widget.nameController.text.trim(), userData.email);
                       },
                     ),
                   ),

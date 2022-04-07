@@ -33,7 +33,7 @@ class _ItemPageState extends State<ItemPage> {
 
   @override
   Widget build(BuildContext context) {
-    user = Provider.of<UserPerson>(context);
+    user = Provider.of<UserPerson?>(context);
     print(widget.id);
     return StreamBuilder<Item>(
       stream: DatabaseService(uid: widget.id).getItemById,
@@ -74,7 +74,7 @@ class _ItemPageState extends State<ItemPage> {
               ItemWidget(
                 ImagePath: 'assets/images/item_image.png',
                 Name: AuthName,
-                Email: user?.email,
+                Email: item!.userEmail,
               ),
               Container(
                padding: EdgeInsets.symmetric(vertical: 9.0, horizontal: 16),

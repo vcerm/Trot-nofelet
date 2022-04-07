@@ -97,7 +97,7 @@ class _ItemEditPageState extends State<ItemEditPage> {
               ItemWidget(
                 ImagePath: 'assets/images/item_image.png',
                 Name: AuthorName,
-                Email: user?.email,
+                Email: user.email,
               ),
               SizedBox(height: 10,),
                   Flexible(

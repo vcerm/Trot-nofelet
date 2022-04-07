@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:nofelet/pages/add_page.dart';
+import 'package:nofelet/pages/auth_page.dart';
 import 'package:nofelet/pages/profile_page.dart';
 import 'package:nofelet/services/auth.dart';
 import 'package:nofelet/widgets/list_items.dart';
@@ -12,6 +13,7 @@ import '../models/item.dart';
 import '../services/database.dart';
 
 class MainPage extends StatefulWidget {
+
   const MainPage({Key? key}) : super(key: key);
 
   @override
@@ -59,6 +61,7 @@ class _MainPageState extends State<MainPage> {
           RawMaterialButton(
             onPressed: () {
               AuthService().logOut();
+              Navigator.push(context, MaterialPageRoute(builder: (ctx) => AuthPage(onClickedReg: (){})));
             },
             child: const Icon(
               Icons.exit_to_app,

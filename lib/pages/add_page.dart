@@ -33,11 +33,12 @@ class _AddItemState extends State<AddItem> {
   }
 
 
-   _saveButton(String? name) async {
+   _saveButton(String? name, String? email) async {
 
     itemEdit.author = name;
     itemEdit.authorId = user.id;
     itemEdit.description = _description.text.trim();
+    itemEdit.userEmail = email;
 
 
     await DatabaseService().addOrUpdateItem(itemEdit);
@@ -98,7 +99,7 @@ class _AddItemState extends State<AddItem> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20.0),
-                      child: addButton((){_saveButton(userData!.name);}),
+                      child: addButton((){_saveButton(userData!.name, userData.email);}),
                     )
                   ],
                 ),
