@@ -51,62 +51,66 @@ class _ItemListState extends State<ItemList> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: items.length,
-      itemBuilder: (context, i){
-        return Container(
-          child: Card(
-            key: Key(items[i].id.toString()),
-            elevation: 2.0,
-            margin: const EdgeInsets.symmetric(vertical: 9.0, horizontal: 16),
-            child: Container(
-              decoration: const BoxDecoration(color: Color(0xffecd9cc),),
-              child: ListTile(
-                leading: Image.asset(
-                  'assets/images/item_image.png',
-                  fit: BoxFit.fill,
-                ),
-                contentPadding: const EdgeInsets.all(6.0),
-                title: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Text(
-                    items[i].description.toString(),
-                    style: const TextStyle(
-                      fontSize: 13,
+    if(items.isEmpty){
+      return ListView.builder(
+        itemCount: items.length,
+        itemBuilder: (context, i){
+          print(items[i].id.toString());
+          return Container(
+            child: Card(
+              key: Key(items[i].id.toString()),
+              elevation: 2.0,
+              margin: const EdgeInsets.symmetric(vertical: 9.0, horizontal: 16),
+              child: Container(
+                decoration: const BoxDecoration(color: Color(0xffecd9cc),),
+                child: ListTile(
+                  leading: Image.asset(
+                    'assets/images/item_image.png',
+                    fit: BoxFit.fill,
+                  ),
+                  contentPadding: const EdgeInsets.all(6.0),
+                  title: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Text(
+                      items[i].description.toString(),
+                      style: const TextStyle(
+                        fontSize: 13,
+                      ),
                     ),
                   ),
-                ),
-                subtitle: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      items[i].author.toString(),
-                      style: const TextStyle(
-                        letterSpacing: 3.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
+                  subtitle: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        items[i].author.toString(),
+                        style: const TextStyle(
+                          letterSpacing: 3.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    RawMaterialButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => ItemPage(id: items[i].id))
-                        );
-                      },
-                      child: const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 30.0,
-                        color: Colors.black,
+                      RawMaterialButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (context) => ItemPage(id: items[i].id))
+                          );
+                        },
+                        child: const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 30.0,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    }else{return CircularProgressIndicator();}
+
   }
 }
 

@@ -41,13 +41,16 @@ class DatabaseService{
       query = _itemsCollection;
     }
     return query.snapshots().map((QuerySnapshot data) =>
-      data.docs.map((DocumentSnapshot doc) => Item.fromJson(doc.id, doc.data() as Map<String, dynamic>)).toList());
+      data.docs.map((DocumentSnapshot doc) {
+        print(doc.data());
+        print(doc.id);
+        return Item.fromJson(doc.id, doc.data() as Map<String, dynamic>);
+      }).toList());
   }
 
-  Future<Item> getItemById() async{
-    String id = "OANHDIG83rbo3eA1I8Dp";
-    var doc = await _itemsCollection.doc(id).get();
-    return Item.fromJson(doc.id, doc.data as Map<String, dynamic>);
+  Future<Item> getItemById(String? id) async{
+        var doc = await _itemsCollection.doc(id).get();
+    return Item.fromJson(doc.id, doc.data() as Map<String, dynamic>);
   }
 
   Stream<UserData> get userData{

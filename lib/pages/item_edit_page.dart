@@ -39,7 +39,7 @@ class _ItemEditPageState extends State<ItemEditPage> {
   var db = DatabaseService();
 
   void _loadItem(){
-    db.getItemById().then((w) {
+    db.getItemById(widget.id).then((w) {
       setState(() {
         item = w;
       });
@@ -49,8 +49,13 @@ class _ItemEditPageState extends State<ItemEditPage> {
   @override
   void initState(){
     super.initState();
-    _loadItem;
+    _loadItem();
     controller = TextEditingController(text: item?.description);
+  }
+
+  void _buttonSave()async{
+    itemEdit?.description = controller.text.trim();
+    await DatabaseService().addOrUpdateItem(itemEdit!);
   }
 
   @override
@@ -63,10 +68,8 @@ class _ItemEditPageState extends State<ItemEditPage> {
   @override
   Widget build(BuildContext context) {
     user = Provider.of<UserPerson>(context);
-    void _buttonSave(){
-      itemEdit?.description = controller.text.trim();
-      db.addOrUpdateItem(itemEdit!);
-    }
+
+    String? AuthorName = item?.author;
 
     return Scaffold(
       backgroundColor: const Color(0xffebddd3),
@@ -98,7 +101,7 @@ class _ItemEditPageState extends State<ItemEditPage> {
         children: [
           ItemWidget(
             ImagePath: 'assets/images/item_image.png',
-            Name: 'Потный Вилли',
+            Name: AuthorName,
             Email: user?.email,
           ),
           SizedBox(height: 10,),

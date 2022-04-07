@@ -23,16 +23,16 @@ class ItemPage extends StatefulWidget {
 
 class _ItemPageState extends State<ItemPage> {
   UserPerson? user;
-  late Item item;
+  Item? item;
   var db = DatabaseService();
   @override
   void initState(){
-    _loadItem;
+    _loadItem();
     super.initState();
   }
 
   void _loadItem(){
-    db.getItemById().then((w) {
+    db.getItemById(widget.id).then((w) {
       setState(() {
         item = w;
       });
@@ -43,7 +43,8 @@ class _ItemPageState extends State<ItemPage> {
   Widget build(BuildContext context) {
     user = Provider.of<UserPerson>(context);
     _loadItem();
-    String? desc = item.description;
+    String? desc = item?.description;
+    String? AuthName = item?.author;
     return Scaffold(
       backgroundColor: const Color(0xffebddd3),
       appBar: AppBar(
@@ -74,7 +75,7 @@ class _ItemPageState extends State<ItemPage> {
         children: [
           ItemWidget(
             ImagePath: 'assets/images/item_image.png',
-            Name: '',
+            Name: AuthName,
             Email: user?.email,
           ),
           Container(

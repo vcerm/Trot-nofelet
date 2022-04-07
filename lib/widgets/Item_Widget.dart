@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ItemWidget extends StatelessWidget {
   final String ImagePath;
-  final String Name;
+  final String? Name;
   final String? Email;
 
   const ItemWidget(
@@ -22,7 +22,7 @@ class ItemWidget extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                Name,
+                Name!,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 24,
