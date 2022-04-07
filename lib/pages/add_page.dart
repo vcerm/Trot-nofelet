@@ -35,7 +35,7 @@ class _AddItemState extends State<AddItem> {
 
   void _saveButton() async {
 
-    itemEdit.author = 'author_name';
+    itemEdit.author = userData?.name;
     itemEdit.authorId = user.id;
     itemEdit.description = _description.text.trim();
 

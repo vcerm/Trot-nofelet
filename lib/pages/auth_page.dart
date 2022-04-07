@@ -127,11 +127,7 @@ class _AuthPageState extends State<AuthPage> {
         backgroundColor: const Color(0xff7d5538),
         shadowColor: Colors.transparent,
       ),
-      body: Column(
-        children: <Widget>[
-          _form(),
-        ],
-      ),
+      body: SingleChildScrollView(child: _form()),
     );
   }
 }

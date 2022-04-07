@@ -50,6 +50,7 @@ class _RegisterState extends State<Register> {
       print('Unsubscribing');
       itemsStreamSubscription?.cancel();
     }
+
     super.dispose();
   }
 
@@ -62,11 +63,16 @@ class _RegisterState extends State<Register> {
       });
     });
   }
+  @override
+  void initState() {
+    loadData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     user = Provider.of<UserPerson?>(context);
-    loadData();
+
     Future _buttonReg() async{
       final isValid = formKey.currentState!.validate();
       if(!isValid) return;
@@ -78,19 +84,17 @@ class _RegisterState extends State<Register> {
         );
         User user = result.user!;
         await DatabaseService(uid: user.uid).updateUserData(_nameController.text.trim(), _emailController.text.trim());
+        Navigator.push(context, MaterialPageRoute(builder: (ctx) => MainPage()));
+        _nameController.clear();
+        _emailController.clear();
+        _passwordController.clear();
+        _passwordChekController.clear();
         return UserPerson.fromFirebase(user);
       } on FirebaseAuthException catch (e) {
         print(e);
 
         Utils.showSnackBar(e.message);
       }
-
-      _emailController.clear();
-      _passwordController.clear();
-      _passwordChekController.clear();
-      _nameController.clear();
-
-      navigatorKey.currentState!.popUntil((route) => route.isFirst);
     }
 
     void addButtonRoute() async{
@@ -120,7 +124,10 @@ class _RegisterState extends State<Register> {
           backgroundColor: const Color(0xff7d5538),
           shadowColor: Colors.transparent,
           leading: RawMaterialButton(
-            onPressed: widget.onClickedAuth,
+            onPressed: (){
+              widget.onClickedAuth;
+              navigatorKey.currentState!.popUntil((route) => route.isFirst);
+              },
             child: const Icon(
               Icons.arrow_back_rounded,
               size: 30.0,

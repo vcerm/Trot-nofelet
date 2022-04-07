@@ -10,6 +10,7 @@ import 'package:nofelet/widgets/User_Preferences.dart';
 import 'package:nofelet/widgets/list_items.dart';
 import 'package:provider/provider.dart';
 
+import '../main.dart';
 import '../models/item.dart';
 import '../services/database.dart';
 import '../widgets/Profile_Widget.dart';
@@ -26,10 +27,11 @@ class ProfilePage extends StatefulWidget {
 
 
 class _ProfilePageState extends State<ProfilePage> {
-  late final UserPerson user;
+  late UserPerson user;
   DatabaseService db = DatabaseService();
   StreamSubscription<List<Item>>? itemsStreamSubscription;
   late List<Item> items;
+
 
   @override
   void dispose() {
@@ -53,11 +55,16 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
 
-    Future _buttonExit() async{
+    user = Provider.of<UserPerson>(context);
+
+    Future _buttonExit() async {
       await FirebaseAuth.instance.signOut();
+      navigatorKey.currentState!.popUntil((route) => route.isFirst);
     }
 
-    user = Provider.of<UserPerson>(context);
+
+
+
 
     return Scaffold(
       backgroundColor: const Color(0xffebddd3),
@@ -99,33 +106,35 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
       body:
-        Column(
-              children: [
-                ProfileWidget(
-                  ImagePath: 'assets/images/User_image.jpg',
-                  Name: 'Потный Вилли',
-                  Email: user.email!,
-                ),
-                const Divider(
-                  color: Colors.black,
-                  height: 20,
-                  thickness: 2,
-                  indent: 10,
-                  endIndent: 10,
-                ),
-                Container(
-                  height: 400,
-                  child: UserItemsWidget(bottomButton: Container(),),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 30.0),
-                  child: SizedBox(
-                    height: 40,
-                    width: 150,
-                    child: button("Выйти", _buttonExit),
+        SingleChildScrollView(
+          child: Column(
+                children: [
+                  ProfileWidget(
+                    ImagePath: 'assets/images/User_image.jpg',
+                    Name: 'Потный Вилли',
+                    Email: user.email!,
                   ),
-                ),
-              ],
+                  const Divider(
+                    color: Colors.black,
+                    height: 20,
+                    thickness: 2,
+                    indent: 10,
+                    endIndent: 10,
+                  ),
+                  Container(
+                    height: 400,
+                    child: UserItemsWidget(bottomButton: Container(),),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 30.0),
+                    child: SizedBox(
+                      height: 40,
+                      width: 150,
+                      child: button("Выйти", _buttonExit),
+                    ),
+                  ),
+                ],
+          ),
         ),
     );
 
